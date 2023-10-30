@@ -1,0 +1,8 @@
+.lobby {
+    height: 90vh;
+    min-height: 720px;
+    width: 90vw;
+    min-width: 1280px;
+    background-color: white;
+    margin: 0 auto;
+}

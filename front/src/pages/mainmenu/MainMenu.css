@@ -1,0 +1,70 @@
+.main-menu {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #000020, #000000);  
+    position: relative;
+}
+.title {
+    top: 15vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10vw;
+    font-size: 4vw;
+    color: white;
+    position: absolute;
+    user-select : none;
+}
+
+.star {
+    fill: #fff;
+}
+  
+@keyframes twinkle {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+.newgame-button {
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 19%;
+    height: 8%;
+    font-size: 1.2vw;
+    cursor: pointer;
+    background-color: lightgray;
+    z-index: 1;
+    position: absolute;
+    user-select : none;
+    border-width: medium;
+}
+.continue-button {
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 19%;
+    height: 8%;
+    font-size: 1.2vw;
+    cursor: pointer;
+    background-color: lightgray;
+    border-color: #000000;
+    z-index: 1;
+    position: absolute;
+    user-select : none;     
+    border-width: medium;
+    border-color: #000000;
+}
+
+.newgame-button:hover {
+    background-color: darkgray;
+}
+.continue-button:hover {
+    background-color: darkgray;
+}
