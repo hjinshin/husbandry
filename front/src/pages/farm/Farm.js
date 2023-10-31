@@ -3,7 +3,7 @@ import React from 'react';
 function Farm(props) {
     return (
         <div>
-            <p>test</p>
+            <p>farm</p>
         </div>
     );
 }

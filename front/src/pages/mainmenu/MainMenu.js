@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import './MainMenu.css'
@@ -7,6 +7,11 @@ import TwinkleStars from '../../services/twinkle_stars/TwinkleStars';
 const SERVER_SEARCH_URL = 'http://localhost:8080';
 
 function MainMenu(props) {   
+    const [exist, setExist] = useState(false);
+
+    useEffect(() => {
+        setExist(props.exist);
+    }, [props]);
 
     async function loadMyGame() {
         await axios({
@@ -36,11 +41,11 @@ function MainMenu(props) {
             <TwinkleStars/>
             <p className='title'>축산</p>
             <div className='main-menu-button-container'>
-                <Link className='newgame' to={'/farm'}>
+                <Link className='newgame' to={'/tutorial'}>
                     <button className='newgame-button' onClick={startNewGame}>처음부터</button>            
                 </Link>
                 <Link className='continue' to={'/farm'}>
-                    <button className='continue-button' onClick={loadMyGame}>이어하기</button>            
+                    <button className={`continue-button ${exist ? 'true' : 'false'}`} onClick={loadMyGame}>이어하기</button>            
                 </Link>                
             </div>
         </div>

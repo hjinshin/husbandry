@@ -27,7 +27,7 @@
     user-select : none;
     border-width: medium;
 }
-.continue-button {
+.continue-button.true {
     top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -37,11 +37,27 @@
     cursor: pointer;
     background-color: lightgray;
     border-color: #000000;
+    border-width: medium;
     z-index: 1;
     position: absolute;
     user-select : none;     
+}
+
+.continue-button.false {
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 19%;
+    height: 8%;
+    font-size: 1.2vw;
+    cursor: pointer;
+    background-color: rgb(51, 51, 51);
     border-width: medium;
     border-color: #000000;
+    z-index: 1;
+    position: absolute;
+    user-select : none;     
+    pointer-events: none;
 }
 
 .newgame-button:hover {
