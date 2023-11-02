@@ -1,32 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Routes, Route  } from 'react-router-dom';
-import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { fetchCheckCookie } from '../../slices/validSlice';
 import MainMenu from '../../pages/mainmenu/MainMenu';
-import Farm from '../../pages/farm/Farm';
-import Tutorial from '../../pages/tutorial/Tutorial';
+import SignUp from '../../pages/signUp/SignUp';
+import TwinkleStars from '../twinkle_stars/TwinkleStars';
 import './Lobby.css'
 
-const SERVER_SEARCH_URL = 'http://localhost:8080';
 function Lobby(props) {
-    const [exist, setExist] = useState(false);
-    useEffect(()=> {
-        async function configClient() {
-            await axios({
-                method: "GET",
-                url: SERVER_SEARCH_URL + '/api/exist'
-            }).then((res) => {
-                setExist(res.data);
-            })
-        };
-        configClient();
-    },[]);
+    const dispatch = useDispatch();
+    dispatch(fetchCheckCookie());
     
     return (
         <div className='lobby'>
+            <TwinkleStars/>
             <Routes>
-                <Route path='/*' element={<MainMenu exist={exist}/>} />   
-                <Route path='/tutorial' element={<Tutorial/>} />
-                <Route path='/farm' element={<Farm />} />
+                <Route path='/*' element={<MainMenu />} />   
+                <Route path='/signup' element={<SignUp/>} />
             </Routes>    
         </div>
 

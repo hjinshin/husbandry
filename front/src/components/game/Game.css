@@ -1,6 +1,6 @@
-.lobby {
+.game {
     height: 720px;
     width: 1280px;
-    background-color: white;
+    background-color: rgb(215, 234, 253);
     margin: 0 auto;
 }

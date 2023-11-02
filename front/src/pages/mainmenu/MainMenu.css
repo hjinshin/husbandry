@@ -3,53 +3,36 @@
     height: 100%;
 }
 .title {
-    top: 15vh;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10vw;
-    font-size: 4vw;
+    top: 110px;
+    margin:0 140px;
+    width: 1000px;
+    font-size: 70px;
     color: white;
     position: absolute;
     user-select : none;
 }
 
 .newgame-button {
-    top: 70%;
-    left: 50%;
+    top: 500px;
     transform: translate(-50%, -50%);
-    width: 19%;
-    height: 8%;
-    font-size: 1.2vw;
+    width: 340px;
+    height: 60px;
+    font-size: 25px;
     cursor: pointer;
     background-color: lightgray;
+    border-width: medium;
+    border-color: #000000;
     z-index: 1;
     position: absolute;
     user-select : none;
-    border-width: medium;
-}
-.continue-button.true {
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 19%;
-    height: 8%;
-    font-size: 1.2vw;
-    cursor: pointer;
-    background-color: lightgray;
-    border-color: #000000;
-    border-width: medium;
-    z-index: 1;
-    position: absolute;
-    user-select : none;     
 }
 
 .continue-button.false {
-    top: 80%;
-    left: 50%;
+    top: 580px;
     transform: translate(-50%, -50%);
-    width: 19%;
-    height: 8%;
-    font-size: 1.2vw;
+    width: 340px;
+    height: 60px;
+    font-size: 25px;
     cursor: pointer;
     background-color: rgb(51, 51, 51);
     border-width: medium;
@@ -59,10 +42,25 @@
     user-select : none;     
     pointer-events: none;
 }
+.continue-button.true {
+    top: 580px;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    height: 60px;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: lightgray;
+    border-width: medium;
+    border-color: #000000;
+    z-index: 1;
+    position: absolute;
+    user-select : none;     
+    pointer-events: default;
+}
 
 .newgame-button:hover {
     background-color: darkgray;
 }
-.continue-button:hover {
+.continue-button.true:hover {
     background-color: darkgray;
 }

@@ -1,0 +1,46 @@
+.tutorial{
+    width: 100%;
+    height: 100%;
+
+}
+.descript {
+    top: 140px;
+    width: 1000px;
+    margin:0 140px;
+    font-size: 38px;
+    color: white;
+    position: absolute;
+    user-select : none;
+}
+
+.input-layout {
+    top: 440px;
+    width: 1000px;
+    user-select : none;
+    position: absolute;
+    margin: 0 140px;
+}
+
+
+.input-descript {
+    font-size: 38px;
+    color: white;
+    user-select : none;
+}
+
+.inputField {
+    background-color: transparent;
+    height: 47px;
+    width: 290px;
+    margin-top: 47px;
+    font-size: 25px;
+    border: 4px solid rgba(255, 255, 255, 0.23);
+    border-radius: 7px;
+    text-align: center;
+    color: white;
+}
+
+.inputField:focus-visible  {
+    outline: none!important;
+    border: 4px solid #cccccc;
+}

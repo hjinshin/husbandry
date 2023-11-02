@@ -9,15 +9,9 @@ import java.util.UUID;
 @CrossOrigin
 @RestController
 public class TestController {
-    // 테스트
-    @GetMapping ("/api/test")
-    public String testAPI(@RequestParam String message) {
-        System.out.println(message);
-        return "test";
-    }
     // 쿠키 확인
     @GetMapping ("/api/exist")
-    public Boolean cookieTest(HttpServletRequest request) {
+    public Boolean getCheckCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -35,9 +29,15 @@ public class TestController {
     }
     // 닉네임 설정
     @GetMapping("/api/nickname")
-    public UUID createNickName(@RequestParam String nickname) {
+    public Boolean getNickName(@RequestParam String nickname, Boolean reset) {
+        System.out.println(nickname + " " + reset);
+        UUID uuid4 = UUID.randomUUID();
+        return true;
+    }
+    @PostMapping("/api/nickname")
+    public Boolean createNickName(@RequestParam String nickname) {
         System.out.println(nickname);
         UUID uuid4 = UUID.randomUUID();
-        return uuid4;
+        return true;
     }
 }
