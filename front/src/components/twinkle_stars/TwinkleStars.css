@@ -1,6 +1,6 @@
 .twinkle-stars {
-    width: 100%;
-    height: 100%; 
+    height: 720px; 
+    width: 1280px;
     background: linear-gradient(to top, #000020, #000000);
     position: relative;
 }

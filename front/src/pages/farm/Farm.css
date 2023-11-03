@@ -1,13 +1,13 @@
 .farm {
-    height: 100%;
-    width: 100%;
-    position: relative;
-}
-.ground-img {
-    height: 90px;
+    height: 720px;
     width: 1280px;
+    position: absolute;
+}
+.farm-ground-img {
+    height: 90px;
+    width: 1480px;
     top: 630px;
-    left: 0px;
+    left: -100px;
     position: absolute;
 }
 .barn-img {

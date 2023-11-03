@@ -3,4 +3,5 @@
     width: 1280px;
     background-color: white;
     margin: 0 auto;
+    overflow: hidden;
 }

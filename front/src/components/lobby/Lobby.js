@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route  } from 'react-router-dom';
+import { AnimatePresence } from "framer-motion";
 import { useDispatch } from 'react-redux';
 import { fetchCheckCookie } from '../../slices/validSlice';
 import MainMenu from '../../pages/mainmenu/MainMenu';
@@ -14,10 +15,12 @@ function Lobby(props) {
     return (
         <div className='lobby'>
             <TwinkleStars/>
-            <Routes>
-                <Route path='/*' element={<MainMenu />} />   
-                <Route path='/signup' element={<SignUp/>} />
-            </Routes>    
+            <AnimatePresence>
+                <Routes>
+                    <Route path='/*' element={<MainMenu />} />   
+                    <Route path='/signup' element={<SignUp/>} />
+                </Routes>    
+            </AnimatePresence>
         </div>
 
     );
