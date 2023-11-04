@@ -24,7 +24,7 @@ function SignUp(props) {
 
     function checkNiickNmAvail(avail) {
         if(avail) {
-            const redirectTo = '/game';
+            const redirectTo = '/gateway';
             navigate(redirectTo);
         } else {
             alert("유효하지 않은 이름입니다.")

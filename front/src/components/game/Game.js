@@ -1,11 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { right, left } from '../../slices/farmSlice';
+import ScaleDown from '../animation/ScaleDown';
 import Slide from '../animation/Slide';
 import Farm from '../../pages/farm/Farm';
 import Land1 from '../../pages/land/Land1';
 import Land2 from '../../pages/land/Land2';
 import Land3 from '../../pages/land/Land3';
+import Heart from '../../images/heart.png';
 import './Game.css';
 
 const components = [
@@ -47,6 +49,7 @@ function Game(props) {
      
     return (
         <div className='game'>
+            <ScaleDown img={Heart} />
             <div className='balance-land-container'>
                 <p className='balance'>₩500</p>
                 <p className='land-num'>{land}/{total_land}</p>

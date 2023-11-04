@@ -1,0 +1,15 @@
+.gateway {
+    width: 1280px;
+    height: 720px;
+}
+
+.heart-img {
+    position: absolute;
+    top: 335px;
+    left: 610px;
+    width: 60px;
+    height: 50px;
+    opacity: 1;
+    z-index: 999;
+    user-select: none;
+}
