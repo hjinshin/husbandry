@@ -6,6 +6,7 @@ const farmSlice = createSlice({
         land: 0,
         total_land: 3,
         direction: 1,
+        option: false,
     },
     reducers: {
         right: (state, action)=> {
@@ -19,9 +20,12 @@ const farmSlice = createSlice({
                 state.land = state.land - 1;
                 state.direction = -1;
             }
+        },
+        optionModal: (state, action)=> {
+            state.option = action.payload;
         }
     }
 });
 
 export default farmSlice;
-export const {right, left} = farmSlice.actions;
+export const {right, left, optionModal} = farmSlice.actions;

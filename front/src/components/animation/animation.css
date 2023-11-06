@@ -1,9 +1,4 @@
-.gateway {
-    width: 1280px;
-    height: 720px;
-}
-
-.heart-img {
+.gateway-heart-img {
     position: absolute;
     top: 335px;
     left: 610px;

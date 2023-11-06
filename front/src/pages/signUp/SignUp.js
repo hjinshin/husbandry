@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { postNickNm } from '../../APIs/postApi';
 import FadeIn from '../../components/animation/FadeIn';
+import ScaleUp from '../../components/animation/ScaleUp';
 import './SignUp.css'
+
 function SignUp(props) {
     const [nickNm, setNickNm] = useState('');
-    const navigate = useNavigate();
+    const [valid, setValid] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -24,10 +25,18 @@ function SignUp(props) {
 
     function checkNiickNmAvail(avail) {
         if(avail) {
-            const redirectTo = '/gateway';
-            navigate(redirectTo);
+            setValid(true);
         } else {
             alert("유효하지 않은 이름입니다.")
+        }
+    }
+
+    function heartAnimation() {
+        if(valid) {
+            return(<ScaleUp redirectTo={'/game'}/>
+            );
+        } else {
+            return(<></>);
         }
     }
     return (
@@ -50,10 +59,11 @@ function SignUp(props) {
                             value={nickNm}
                             onChange={handleInputChange}
                             onSubmit={handleSubmit}
-                        />      
+                        />  
                     </form>      
                 </div>
             </FadeIn>
+            {heartAnimation()}
         </div>
     );
 }

@@ -15,7 +15,7 @@
     width: 100px;
     font-weight: bold;
     position: absolute;
-
+    user-select: none;
 }
 .balance {
     font-size: 35px;

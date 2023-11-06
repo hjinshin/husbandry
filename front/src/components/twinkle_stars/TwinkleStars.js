@@ -6,8 +6,8 @@ function TwinkleStars(props) {
     function createRandomStar(key) {
 
         const delay = Math.random() * 4.5 + 0.5;     
-        const x = Math.random() * 100 + 1 + '%';
-        const y = Math.random() * 100 + 1 + '%';
+        const x = Math.random() * 100 + '%';
+        const y = Math.random() * 100 + '%';
         const size = Math.random() * 3 + 1;
     
         const style = {
@@ -25,7 +25,7 @@ function TwinkleStars(props) {
             style={style}
           />
         );
-      };
+    };
     
     const stars = Array.from({ length: numStars }, (_, i) => createRandomStar(i));
 

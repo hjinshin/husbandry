@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCheckCookie } from '../../slices/validSlice';
 import FadeIn from '../../components/animation/FadeIn';
 import './MainMenu.css'
 
-function MainMenu(props) {   
+function MainMenu(props) {  
+    const dispatch = useDispatch();
+    dispatch(fetchCheckCookie()); 
     const avail = useSelector(state => {
         //console.log(state.valid.avail);
         return state.valid.cookie;
