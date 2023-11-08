@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import Heart from '../../images/heart.png';
 import { scaleUp } from './scaleEffect';
 import './animation.css'
 
@@ -10,7 +9,7 @@ function ScaleUp(props) {
         <AnimatePresence>
             <motion.img
             className='gateway-heart-img' 
-            src={Heart}
+            src={props.img}
             initial="initial"
             animate="animate"
             transition={{ 

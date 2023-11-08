@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { postNickNm } from '../../APIs/postApi';
 import FadeIn from '../../components/animation/FadeIn';
 import ScaleUp from '../../components/animation/ScaleUp';
+import Heart from '../../images/heart.svg'
 import './SignUp.css'
 
 function SignUp(props) {
@@ -33,7 +34,7 @@ function SignUp(props) {
 
     function heartAnimation() {
         if(valid) {
-            return(<ScaleUp redirectTo={'/game'}/>
+            return(<ScaleUp img={Heart} redirectTo={'/game'}/>
             );
         } else {
             return(<></>);

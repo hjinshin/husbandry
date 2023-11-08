@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { right, left, optionModal } from '../../slices/farmSlice';
 import ScaleDown from '../animation/ScaleDown';
 import Slide from '../animation/Slide';
-import Heart from '../../images/heart.png';
+import Heart from '../../images/heart.svg';
 import {landlist} from './landList'
 import './Game.css';
 import ModalManager from '../modal/ModalManager';

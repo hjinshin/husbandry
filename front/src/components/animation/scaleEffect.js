@@ -4,7 +4,7 @@ export const scaleUp = {
     opacity:0.5,
     },
     animate: {
-    scale: 35,
+    scale: 50,
     opacity:1,
     }
 };
@@ -12,7 +12,7 @@ export const scaleUp = {
 export const scaleDown = {
     initial: {
     opacity:1,
-    scale: 35,
+    scale: 50,
     },
     animate: {
     opacity:0,

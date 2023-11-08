@@ -37,6 +37,7 @@
     border-radius: 7px;
     text-align: center;
     color: white;
+    caret-color: transparent;
 }
 
 .inputField:focus-visible  {
