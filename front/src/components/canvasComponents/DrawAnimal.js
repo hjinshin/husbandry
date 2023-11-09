@@ -10,6 +10,7 @@ import WormWing from '../../images/wing.svg';
 function DrawAnimal(props) {
     const [height, setHeight] = useState(400);
     const [width, setWidth] = useState(400);
+    const [style, setStyle] = useState({position: "absolute"})
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -20,6 +21,12 @@ function DrawAnimal(props) {
         
         const height = margin_top + (margin_bot - animal.r > 0 ? margin_bot - animal.r : 0);
         const width = animal.w_tail + animal.w_body + animal.w_head - 2*animal.r;
+        const style = {
+            bottom: "90px",
+            left: width,
+            position: "absolute",
+        };
+        setStyle(style);
         setHeight(height);
         setWidth(width);
 
@@ -79,7 +86,7 @@ function DrawAnimal(props) {
     }, [props.animal]);
   
     return (
-        <canvas ref={canvasRef} width={width} height={height} ></canvas>
+        <canvas ref={canvasRef} width={width} height={height} style={style} ></canvas>
     );
 }
   
