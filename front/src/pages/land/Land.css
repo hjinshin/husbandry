@@ -11,10 +11,3 @@
     left: -100px;
     position: absolute;
 }
-
-.land1_animal {
-    bottom: 90px;
-    left: 200px;
-    position: absolute;
-    z-index: 1;
-}

@@ -1,6 +1,6 @@
 import React from 'react';
-import Ground from '../../images/ground.png';
-import Barn from '../../images/barn.png';
+import Ground from '../../images/background/ground.png';
+import Barn from '../../images/background/barn.png';
 import './Farm.css'
 
 function Farm(props) {

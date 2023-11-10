@@ -1,5 +1,5 @@
 import React from 'react';
-import Ground from '../../images/ground.png';
+import Ground from '../../images/background/ground.png';
 import './Land.css'
 
 function Land3(props) {
