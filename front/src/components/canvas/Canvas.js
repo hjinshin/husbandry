@@ -7,6 +7,7 @@ function Canvas(props) {
     const canvasRef = useRef(null);
     const startTimeRef = useRef(null);
 
+    // 애니메이션
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -34,6 +35,7 @@ function Canvas(props) {
             if(y < 640 - animal.height*2)          y_direction = 1; 
             if(y > 640 - animal.height)            y_direction = -1; 
 
+            // 애니메이션
             x += (2 * progress) / 100 * x_direction; // 0.1초에 2 이동     
             if(true) {
                 // strolling
@@ -46,7 +48,6 @@ function Canvas(props) {
             if (progress >= 100) {
                 startTimeRef.current = timestamp;
             }                
-            
 
             draw(ctx, animal, images, x, y, x_direction, angle);
             animationId = requestAnimationFrame(animate);
@@ -54,6 +55,8 @@ function Canvas(props) {
         if (isAnimationRunning) {
             animationId = requestAnimationFrame(animate);
         }
+
+
         return () => {
             startTimeRef.current = null;
             cancelAnimationFrame(animationId);
