@@ -11,8 +11,8 @@ function Canvas(props) {
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
-        let x = (1280 - animal.width)/2;
-        let y = 640-animal.height;
+        let x = 1280/2;
+        let y = 640 - animal.h_body - ((animal.h_f_leg) > 0 || (animal.h_b_leg > 0) ? (Math.max(animal.h_f_leg, animal.h_b_leg) - animal.h_body/2) : 0);
         let angle = 0;
         let animationId;
         let x_direction = 1;
@@ -28,8 +28,8 @@ function Canvas(props) {
             
             const canvasWidth = canvas.width;
 
-            if(x + animal.width > canvasWidth)     x_direction = -1;
-            if(x  < 0)                             x_direction = 1;   
+            if(x + animal.width/2 > canvasWidth)   x_direction = -1;
+            if(x - animal.width/2  < 0)            x_direction = 1;   
             if(angle > 5)                          angleCycle = -1;
             if(angle < -5)                         angleCycle = 1;   
             if(y < 640 - animal.height*2)          y_direction = 1; 
