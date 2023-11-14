@@ -42,13 +42,13 @@ function draw(ctx, animal, images, x, y, x_direction, angle) {
     ctx.drawImage(images[2], x - animal.w_body/2 - animal.w_tail + animal.r, 
                             y + ((animal.h_tail < 0) ? (animal.h_tail + animal.h_body):0), 
                             animal.w_tail, 
-                            animal.h_tail * ((animal.h_head < 0) ? (-1):(1)) );
+                            animal.h_tail * ((animal.h_tail < 0) ? (-1):(1)) );
     // tail_border
     ctx.filter = "none";    
     ctx.drawImage(images[8], x - animal.w_body/2 - animal.w_tail + animal.r, 
                             y + ((animal.h_tail < 0) ? (animal.h_tail + animal.h_body):0), 
                             animal.w_tail, 
-                            animal.h_tail * ((animal.h_head < 0) ? (-1):(1)) );
+                            animal.h_tail * ((animal.h_tail < 0) ? (-1):(1)) );
 
     // f_leg
     ctx.filter = animal.color; 
