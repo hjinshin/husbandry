@@ -1,0 +1,14 @@
+.sleep {
+    width: 1280px;
+    height: 720px;
+}
+
+.date {
+    width: 500px;
+    height: 50px;
+    top: 335px;
+    left: 390px;
+    font-size: 50px;
+    text-align: center;
+    position: absolute;
+}

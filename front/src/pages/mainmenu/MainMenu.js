@@ -15,7 +15,7 @@ function MainMenu(props) {
 
     return (
         <div className='main-menu'>
-            <FadeIn>
+            <FadeIn transition={{ duration: 0.8 }}>
                 <p className='title'>축산</p>
                 <div className='main-menu-button-container'>
                     <Link className='newgame' to={'/signup'}>

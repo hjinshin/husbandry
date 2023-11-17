@@ -1,0 +1,84 @@
+.farm {
+    height: 720px;
+    width: 1280px;
+    background-color: rgb(215, 234, 253);
+    margin: 0 auto;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+.balance-land-container {
+    top: 30px;
+    left: 590px;
+    height: 100px;;
+    width: 100px;
+    font-weight: bold;
+    position: absolute;
+    user-select: none;
+}
+.balance {
+    font-size: 35px;
+    margin-bottom: 30px;
+}
+.land-num {
+    font-size: 25px;
+}
+.sleep-button,
+.option-button,
+.tamer-button,
+.breeder-button,
+.buy-button,
+.bring-button {
+    top: 20px;
+    width: 120px;
+    height: 50px;
+    border: 2px solid black;
+    font-size: 17px;
+    font-weight: bold;
+    color: black;
+    position: absolute;
+    background-color: white;
+    user-select: none;
+    z-index: 99;
+}
+.tamer-button,
+.buy-button {
+    left: 50px;
+}
+.breeder-button {
+    left: 200px;
+}
+.sleep-button {
+    right: 200px;
+}
+.option-button,
+.bring-button {
+    right: 50px;
+}
+.tamer-button:hover,.breeder-button:hover,
+.sleep-button:hover,.option-button:hover,
+.buy-button:hover,.bring-button:hover,
+.prev-button:hover,.next-button:hover {
+    cursor: pointer;
+    background-color: darkgray;
+}
+
+.next-button,
+.prev-button {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid black;
+    width: 80px;
+    height: 80px;
+    user-select: none;
+    font-size: 50px;
+    bottom: 50px;
+}
+.next-button {
+    right: 100px;
+}
+.prev-button {
+    left: 100px;
+}

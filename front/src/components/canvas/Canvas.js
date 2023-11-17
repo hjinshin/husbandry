@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { animalImgObjMap } from './animalImgObjMap';
 import draw from './draw';
 
 function Canvas(props) {
@@ -19,6 +20,21 @@ function Canvas(props) {
         let y_direction = -1;
         let angleCycle = 1;
 
+
+        const imagesObj = Array(12).fill(null).map(() => new Image());
+        imagesObj[0].src = animalImgObjMap[images[0]].body;
+        imagesObj[1].src = animalImgObjMap[images[0]].head;
+        imagesObj[2].src = animalImgObjMap[images[0]].tail;
+        imagesObj[3].src = animalImgObjMap[images[0]].f_leg;
+        imagesObj[4].src = animalImgObjMap[images[0]].b_leg;
+        imagesObj[5].src = animalImgObjMap[images[0]].wing;
+        imagesObj[6].src = animalImgObjMap[images[0]].body_border;
+        imagesObj[7].src = animalImgObjMap[images[0]].head_border;
+        imagesObj[8].src = animalImgObjMap[images[0]].tail_border;
+        imagesObj[9].src = animalImgObjMap[images[0]].f_leg_border;
+        imagesObj[10].src = animalImgObjMap[images[0]].b_leg_border;
+        imagesObj[11].src = animalImgObjMap[images[0]].wing_border;
+  
         function animate(timestamp) {
             if (!startTimeRef.current) {
                 startTimeRef.current = timestamp;
@@ -49,7 +65,7 @@ function Canvas(props) {
                 startTimeRef.current = timestamp;
             }                
 
-            draw(ctx, animal, images, x, y, x_direction, angle);
+            draw(ctx, animal, imagesObj, x, y, x_direction, angle);
             animationId = requestAnimationFrame(animate);
         };
         if (isAnimationRunning) {

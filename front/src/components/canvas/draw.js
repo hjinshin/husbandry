@@ -1,4 +1,3 @@
-
 function draw(ctx, animal, images, x, y, x_direction, angle) {
     const radianAngle = (angle * Math.PI) / 180;
 
@@ -8,9 +7,9 @@ function draw(ctx, animal, images, x, y, x_direction, angle) {
         ctx.scale(-1, 1);
         x = - x;
     }
-    ctx.translate(x, y + animal.height/2); // 그림의 중간을 중심으로 이동
+    ctx.translate(x, y); // 그림의 중간을 중심으로 이동
     ctx.rotate(radianAngle); // 각도만큼 회전
-    ctx.translate(-x, -(y + animal.height/2)); // 다시 원래 위치로 이동
+    ctx.translate(-x, -(y)); // 다시 원래 위치로 이동
     // body
     ctx.filter = animal.color;
     ctx.drawImage(images[0], x - animal.w_body/2,               // x

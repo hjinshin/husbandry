@@ -1,18 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-const variants = {
-  initial: {
-  opacity: 0
-  },
-  animate: {
-  opacity: 1
-  },
-  exit: {
-  opacity: 0,
-  }
-};
-
+import { fadeInOut } from './scaleEffect';
 
 function FadeIn({ children, ...rest }) {
     return (
@@ -20,8 +8,7 @@ function FadeIn({ children, ...rest }) {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.8 }}
-            variants={variants}
+            variants={fadeInOut}
             {...rest}
             >
             {children}

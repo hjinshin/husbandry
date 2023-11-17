@@ -42,7 +42,7 @@ function SignUp(props) {
     }
     return (
         <div className='tutorial'>
-            <FadeIn>
+            <FadeIn transition={{ duration: 0.8 }}>
                 <div className='descript-container'>
                     <p className='descript'>지구에 살고 있는 생명체들은 비싼 가격에 거래됩니다.<br/><br/>
                                             지구 생명체들로 농장을 운영하여 큰 돈을 벌어보세요!

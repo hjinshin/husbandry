@@ -11,3 +11,12 @@
     left: -100px;
     position: absolute;
 }
+.barn-img {
+    height: 450px;
+    width: 450px;
+    top: 180px;
+    left: 415px;
+    opacity: 0.8;
+    user-select: none;
+    position: absolute;
+}

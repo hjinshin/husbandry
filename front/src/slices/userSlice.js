@@ -16,6 +16,7 @@ const userSlice = createSlice({
         error: null,
     },
     reducers: {
+
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUserInfoByNickNm.pending, (state,action)=>{
