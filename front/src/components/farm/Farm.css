@@ -17,6 +17,39 @@
     position: absolute;
     user-select: none;
 }
+.input-name {
+    position: absolute;
+    height: 40px;
+    width: 200px;
+    top: 90px;
+    right: 65px;
+    border: 0;
+    background-color: rgb(215, 234, 253);
+    text-align: right;
+    font-size: 25px;
+    outline: none;
+}
+
+.land-list-nav {
+    position: absolute;
+    z-index: 99;
+    width: 200px;
+    height: 200px;
+    top: 150px;
+    right: 50px;
+    background-color: lightgray;
+    border: 2px solid black;
+}
+.land-list-nav-title {
+    font-size: 18px;
+    height: 38px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-bottom: 2px solid black;
+}
 .balance {
     font-size: 35px;
     margin-bottom: 30px;
@@ -24,6 +57,7 @@
 .land-num {
     font-size: 25px;
 }
+.farmDefaultBtn,
 .sleep-button,
 .option-button,
 .tamer-button,
@@ -56,6 +90,7 @@
 .bring-button {
     right: 50px;
 }
+.farmDefaultBtn:hover,
 .tamer-button:hover,.breeder-button:hover,
 .sleep-button:hover,.option-button:hover,
 .buy-button:hover,.bring-button:hover,

@@ -7,23 +7,15 @@ function Breeder(props) {
     const [goToFarm, setGoToFarm] = useState(false);
 
     useEffect(()=> {
-        props.setPrevLoc("breeder");
+        props.setPrevLoc(true);
     },[props]);
-    function setPrevLoc() {
-        setGoToFarm(true);
-    }
 
-    function heartAnimation() {
-        if(goToFarm) {
-            return (<ScaleUp img={Heart} redirectTo={'..'}/>)
-        }
-    }
     return (
         <div>
             <ScaleDown img={Heart} />
             육종가
-            <button onClick={setPrevLoc} >farm</button>   
-            {heartAnimation()}
+            <button onClick={()=>setGoToFarm(true)} >farm</button>   
+            {goToFarm && <ScaleUp img={Heart} redirectTo={'..'}/>}
         </div>
     );
 }

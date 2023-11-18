@@ -6,11 +6,10 @@ const farmSlice = createSlice({
     initialState: {
         land: 0,
         total_land: 3,
-        direction: 1,
-        land1: {
-            value: null,
-            img: [],
-        }
+        direction: 1,   
+        mating: [],
+        landInfo: {1: { info: null, value: null, img: []}, 2: { info: null, value: null, img: [], }, 
+                   3: { info: null, value: null, img: [], },},
 
     },
     reducers: {
@@ -26,46 +25,77 @@ const farmSlice = createSlice({
                 state.direction = -1;
             }
         },
-        updateLand1: (state, action)=> {
-            state.land1.value = {};
-            Object.keys(action.payload).forEach(key => {
-                if(key === 'price')
-                    state.land1.value[key] = action.payload[key]
-                else if(key === 'height' || key === 'width')
-                    state.land1.value[key] = action.payload[key] * action.payload.w;
+        updateNickName: (state, action)=> {
+            const index = action.payload.index;
+            if(state.landInfo[index].info)
+                state.landInfo[index].info.name = action.payload.name;
+        },
+        updateAnimalInfo: (state, action)=> {
+            const index = action.payload.index;
+            state.landInfo[index].info = action.payload.animalInfo;
+        },
+        updateAnimalValue: (state, action)=> {
+            const index = action.payload.index;
+            const animalValue = action.payload.animalValue;
+            state.landInfo[index].value = {};
+            Object.keys(animalValue).forEach(key => {
+                if(key === 'height' || key === 'width')
+                    state.landInfo[index].value[key] = animalValue[key] * animalValue.w;
                 else if(key === 'color')
-                    state.land1.value[key] = animalValueObjMap[action.payload[key]][key];
+                    state.landInfo[index].value[key] = animalValueObjMap[animalValue[key]][key];
                 else if(key !== 'w') 
-                    state.land1.value[key] = animalValueObjMap[action.payload[key]][key] * action.payload.w;
+                    state.landInfo[index].value[key] = animalValueObjMap[animalValue[key]][key] * animalValue.w;
             });
-            state.land1.img[0] = action.payload.w_body;
-            state.land1.img[1] = action.payload.w_head;
-            state.land1.img[2] = action.payload.w_tail;
-            state.land1.img[3] = action.payload.w_f_leg;
-            state.land1.img[4] = action.payload.w_b_leg;
-            state.land1.img[5] = action.payload.w_wing;
-            state.land1.img[6] = action.payload.w_body;
-            state.land1.img[7] = action.payload.w_head;
-            state.land1.img[8] = action.payload.w_tail;
-            state.land1.img[9] = action.payload.w_f_leg;
-            state.land1.img[10] = action.payload.w_b_leg;
-            state.land1.img[11] = action.payload.w_wing;
+            state.landInfo[index].img[0] = animalValue.w_body;
+            state.landInfo[index].img[1] = animalValue.w_head;
+            state.landInfo[index].img[2] = animalValue.w_tail;
+            state.landInfo[index].img[3] = animalValue.w_f_leg;
+            state.landInfo[index].img[4] = animalValue.w_b_leg;
+            state.landInfo[index].img[5] = animalValue.w_wing;
+            state.landInfo[index].img[6] = animalValue.w_body;
+            state.landInfo[index].img[7] = animalValue.w_head;
+            state.landInfo[index].img[8] = animalValue.w_tail;
+            state.landInfo[index].img[9] = animalValue.w_f_leg;
+            state.landInfo[index].img[10] = animalValue.w_b_leg;
+            state.landInfo[index].img[11] = animalValue.w_wing;
         },
         emptyLandByNum: (state, action)=> {
             if(action.payload === 1) {
-                state.land1.value = null;
-                state.land1.img = [];
+                state.landInfo[1].value = null;
+                state.landInfo[1].info = null;
+                state.landInfo[1].img = [];
             } else if(action.payload === 2) {
-                state.land2.value = null;
-                state.land2.img = [];
+                state.landInfo[2].value = null;
+                state.landInfo[2].info = null;
+                state.landInfo[2].img = [];
             } else if(action.payload === 3) {
-                state.land3.value = null;    
-                state.land3.img = [];
+                state.landInfo[3].value = null;    
+                state.landInfo[3].info = null;
+                state.landInfo[3].img = [];
             }    
         },
+        playWithAnimal: (state, action)=> {
+            if(state.landInfo[action.payload].info.enjoy < 5)
+                state.landInfo[action.payload].info.enjoy += 1;
+        },
+        feedAnimal: (state, action)=> {
+            if(state.landInfo[action.payload].info.feed < 5)
+                state.landInfo[action.payload].info.feed += 1;
+        },   
+        cleanAnimal: (state, action)=> {
+            if(state.landInfo[action.payload].info.clean < 5)
+                state.landInfo[action.payload].info.clean += 1;
+        },    
+        matingAnimal: (state, action)=> {
+            if(state.mating.length < 2) {
+                state.mating.push(action.payload);
+                state.landInfo[action.payload].info.state = "mating";
+            }
+        }  
     }
 });
 
 export default farmSlice;
 export const {right, left} = farmSlice.actions;
-export const {updateLand1, emptyLandByNum} = farmSlice.actions;
+export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
+export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal} = farmSlice.actions;

@@ -7,23 +7,15 @@ function Tamer(props) {
     const [goToFarm, setGoToFarm] = useState(false);
 
     useEffect(()=> {
-        props.setPrevLoc("tamer");
+        props.setPrevLoc(true);
     },[props]);
-    function setPrevLoc() {
-        setGoToFarm(true);
-    }
 
-    function heartAnimation() {
-        if(goToFarm) {
-            return (<ScaleUp img={Heart} redirectTo={'..'}/>)
-        }
-    }
     return (
         <div>
             <ScaleDown img={Heart} />
             조련사
-            <button onClick={setPrevLoc} >farm</button>   
-            {heartAnimation()}
+            <button onClick={()=>setGoToFarm(true)} >farm</button>   
+            {goToFarm && <ScaleUp img={Heart} redirectTo={'..'}/>}
         </div>
     );
 }

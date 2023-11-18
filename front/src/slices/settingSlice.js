@@ -8,6 +8,7 @@ const settingSlice = createSlice({
         sfx: 50,
         option_modal: false,
         buy_modal: false,
+        mating_modal: false,
     },
     reducers: {
         bgmRaise: (state, action)=> {
@@ -23,14 +24,17 @@ const settingSlice = createSlice({
             if(state.sfx > 0)     state.sfx -= 10;
         },
         optionModal: (state, action)=> {
-            state.option_modal = action.payload;
+            state.option_modal = !state.option_modal;
         },
         buyModal: (state, action)=> {
-            state.buy_modal = action.payload;
+            state.buy_modal = !state.buy_modal;
         },
+        matingModal: (state, action)=> {
+            state.mating_modal = !state.mating_modal;
+        }
     }
 });
 
 export default settingSlice;
 export const {bgmRaise, bgmLower, sfxRaise, sfxLower} = settingSlice.actions;
-export const {optionModal, buyModal} = settingSlice.actions;
+export const {optionModal, buyModal, matingModal} = settingSlice.actions;

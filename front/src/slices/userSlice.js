@@ -12,11 +12,17 @@ const userSlice = createSlice({
     initialState: {
         Info: false,
         status: 'idle',
+        money: 500,
         currentRequestId: undefined,
         error: null,
     },
     reducers: {
-
+        addMoney: (state, action)=> {
+            state.money += action.payload;
+        },
+        subMoney: (state, action)=> {
+            state.money -= action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUserInfoByNickNm.pending, (state,action)=>{
@@ -45,3 +51,4 @@ const userSlice = createSlice({
 });
 export default userSlice;
 export { fetchUserInfoByNickNm };
+export const { addMoney, subMoney } = userSlice.actions;

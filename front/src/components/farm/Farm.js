@@ -1,12 +1,14 @@
 import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { right, left } from '../../slices/farmSlice';
-import { optionModal, buyModal } from '../../slices/settingSlice';
+import { right, left, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, emptyLandByNum } from '../../slices/farmSlice';
+import { optionModal, buyModal, matingModal } from '../../slices/settingSlice';
+import { addMoney, subMoney } from '../../slices/userSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
 import Heart from '../../images/heart.svg';
+import Pen from '../../images/pen.png';
 import {landlist} from './landList'
 import ModalManager from '../modal/ModalManager';
 import './Farm.css';
@@ -16,19 +18,19 @@ function Farm(props) {
     const dispatch = useDispatch();
     const [dest, setDest] = useState("farm");
     const [valid, setValid] = useState(false);
-    const {land, total_land } = useSelector(state=>{
-        return state.farm;
-    });
+    const {land, total_land, landInfo } = useSelector(state=>{return state.farm});
+    const { money } = useSelector(state=>{return state.user}); 
+
 
     useEffect(()=>{
-        if(props.prevLoc === "signup" || props.prevLoc === "tamer" || props.prevLoc === "breeder") {
+        if(props.prevLoc) {
             setValid(true);
         }
-        props.setPrevLoc("farm");
+        props.setPrevLoc(false);
     }, [props]);
 
     useEffect(()=>{
-        if(dest === "./sleep") {
+        if(dest === "sleep") {
             navigate("./sleep");
         }
     }, [dest, navigate]);
@@ -36,32 +38,28 @@ function Farm(props) {
     function temp() {
         console.log("temp");
     }
-    function goToTamer() {
-        props.setDuration(0);
-        setDest("./tamer");
+    function goTo(dur, des) {
+        props.setDuration(dur);
+        setDest(des);
     }    
-    function goToBreeder() {
-        props.setDuration(0);
-        setDest("./breeder");
+    function sell() {
+        //console.log(landInfo[land].info.price);
+        dispatch(addMoney(landInfo[land].info.price));
+        dispatch(emptyLandByNum(land));
     }
 
-    function goToSleep() {
-        props.setDuration(1);
-        setDest("./sleep")
-    }
-
-    function ScaleUpAnimation() {
-        if(dest === "./tamer") {
+    function scaleUpAnimation() {
+        if(dest === "tamer") {
             return(<ScaleUp img={Heart} redirectTo={'./tamer'}/>
             );
-        } else if(dest === "./breeder") {
+        } else if(dest === "breeder") {
             return(<ScaleUp img={Heart} redirectTo={'./breeder'}/>
             );
         }else {
             return(<></>);
         }
     }    
-    function ScaleDwAnimation() {
+    function scaleDwAnimation() {
         if(valid) {
             return (<ScaleDown img={Heart} />);
         } else {
@@ -73,17 +71,31 @@ function Farm(props) {
         if(land === 0) {
             return (
                 <>
-                <button className='tamer-button' onClick={goToTamer}>조련사</button>
-                <button className='breeder-button' onClick={goToBreeder}>육종가</button>
-                <button className='sleep-button' onClick={goToSleep}>잠자기</button>  
-                <button className='option-button' onClick={()=>dispatch(optionModal(true))}>옵션</button> 
+                <button className='tamer-button' onClick={()=>goTo(0, 'tamer')}>조련사</button>
+                <button className='breeder-button' onClick={()=>goTo(0, 'breeder')}>육종가</button>
+                <button className='sleep-button' onClick={()=>goTo(1, 'sleep')}>잠자기</button>  
+                <button className='option-button' onClick={()=>dispatch(optionModal())}>옵션</button> 
                 </>
             );
+        } else if(landInfo[land].value === null) {
+            return (
+                <>
+                <button className='buy-button' onClick={()=>dispatch(buyModal())}>구입</button> 
+                <button className='bring-button' onClick={temp}>가져오기</button> 
+                </>
+            )
         } else {
             return (
                 <>
-                <button className='buy-button' onClick={()=>dispatch(buyModal(true))}>구입</button> 
-                <button className='bring-button' onClick={temp}>가져오기</button> 
+                <input className='input-name' type='text' value={landInfo[land].info?.name} 
+                        onChange={(e)=>dispatch(updateNickName({index:land, name:e.target.value}))} />
+                <img src={Pen} alt='pen' style={{position:"absolute",height:"15px", right:"50px", top:"104px"}}/>
+                <button className='farmDefaultBtn' style={{left:"50px"}} onClick={()=>dispatch(playWithAnimal(land))}>놀이</button>
+                <button className='farmDefaultBtn' style={{left:"200px"}} onClick={()=>dispatch(feedAnimal(land))}>먹이</button>
+                <button className='farmDefaultBtn' style={{left:"350px"}} onClick={()=>dispatch(cleanAnimal(land))}>정리</button>
+                <button className='farmDefaultBtn' style={{right:"350px"}} onClick={sell}>판매</button>
+                <button className='farmDefaultBtn' style={{right:"200px"}} onClick={()=>dispatch(matingModal())}>교배</button>
+                <button className='farmDefaultBtn' style={{right:"50px"}}>정보</button>
                 </>
             )
         }
@@ -91,16 +103,20 @@ function Farm(props) {
      
     return (
         <div className='farm'>
-            {ScaleDwAnimation()}
+            {scaleDwAnimation()}
+            {scaleUpAnimation()}
             <Slide components={landlist} />
-            {ScaleUpAnimation()}
             <ModalManager />
             <div className='balance-land-container'>
-                <p className='balance'>₩500</p>
+                <p className='balance'>₩{money}</p>
                 <p className='land-num'>{land}/{total_land}</p>
             </div>
             <button className='prev-button' onClick={()=>dispatch(left())}>&lt;</button>  
             <button className='next-button' onClick={()=>dispatch(right())}>&gt;</button> 
+            <div className='land-list-nav'>
+                <div className='land-list-nav-title'>토지</div>
+
+            </div>
             {selectButton()}
         </div>
     );

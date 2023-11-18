@@ -5,7 +5,7 @@ import './Sleep.css'
 function Sleep(props) {
     const navigate = useNavigate();
     useEffect(()=> {
-        props.setPrevLoc("sleep");        
+        props.setPrevLoc(false);        
     },[props]);
 
 
