@@ -1,9 +1,8 @@
 import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { right, left, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, emptyLandByNum } from '../../slices/farmSlice';
-import { optionModal, buyModal, matingModal } from '../../slices/settingSlice';
-import { addMoney, subMoney } from '../../slices/userSlice';
+import { right, left, playWithAnimal, feedAnimal, cleanAnimal, updateNickName } from '../../slices/farmSlice';
+import { optionModal, buyModal, matingModal, sellModal } from '../../slices/settingSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
@@ -42,11 +41,6 @@ function Farm(props) {
         props.setDuration(dur);
         setDest(des);
     }    
-    function sell() {
-        //console.log(landInfo[land].info.price);
-        dispatch(addMoney(landInfo[land].info.price));
-        dispatch(emptyLandByNum(land));
-    }
 
     function scaleUpAnimation() {
         if(dest === "tamer") {
@@ -87,13 +81,13 @@ function Farm(props) {
         } else {
             return (
                 <>
-                <input className='input-name' type='text' value={landInfo[land].info?.name} 
-                        onChange={(e)=>dispatch(updateNickName({index:land, name:e.target.value}))} />
+                <input className='input-name' type='text' value={landInfo[land].info?.nickname} 
+                        onChange={(e)=>dispatch(updateNickName({index:land, nickname:e.target.value}))} />
                 <img src={Pen} alt='pen' style={{position:"absolute",height:"15px", right:"50px", top:"104px"}}/>
                 <button className='farmDefaultBtn' style={{left:"50px"}} onClick={()=>dispatch(playWithAnimal(land))}>놀이</button>
                 <button className='farmDefaultBtn' style={{left:"200px"}} onClick={()=>dispatch(feedAnimal(land))}>먹이</button>
                 <button className='farmDefaultBtn' style={{left:"350px"}} onClick={()=>dispatch(cleanAnimal(land))}>정리</button>
-                <button className='farmDefaultBtn' style={{right:"350px"}} onClick={sell}>판매</button>
+                <button className='farmDefaultBtn' style={{right:"350px"}} onClick={()=>dispatch(sellModal())}>판매</button>
                 <button className='farmDefaultBtn' style={{right:"200px"}} onClick={()=>dispatch(matingModal())}>교배</button>
                 <button className='farmDefaultBtn' style={{right:"50px"}}>정보</button>
                 </>

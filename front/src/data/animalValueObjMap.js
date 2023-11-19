@@ -40,3 +40,7 @@ export const animalValueObjMap = {
         color: "invert(38%) sepia(70%) saturate(2034%) hue-rotate(166deg) brightness(102%) contrast(103%)",
     },
 };
+
+export const animalValueList = [
+    {w:0.8, height: 50, width: 215, color:"worm", h_head:"worm", w_head:"worm", h_body:"worm", w_body:"worm", h_tail:"worm", w_tail:"worm", h_f_leg:"worm", w_f_leg:"worm", h_b_leg:"worm", w_b_leg:"worm", h_wing:"worm", w_wing:"worm", r:"worm"}
+]

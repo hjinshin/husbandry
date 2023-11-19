@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { animalValueObjMap } from './animalValueObjMap';
+import { animalValueObjMap } from '../data/animalValueObjMap';
 
 const farmSlice = createSlice({
     name: 'farm',
@@ -28,7 +28,7 @@ const farmSlice = createSlice({
         updateNickName: (state, action)=> {
             const index = action.payload.index;
             if(state.landInfo[index].info)
-                state.landInfo[index].info.name = action.payload.name;
+                state.landInfo[index].info.nickname = action.payload.nickname;
         },
         updateAnimalInfo: (state, action)=> {
             const index = action.payload.index;
@@ -91,11 +91,16 @@ const farmSlice = createSlice({
                 state.mating.push(action.payload);
                 state.landInfo[action.payload].info.state = "mating";
             }
-        }  
+        },
+        cancelMatingAnimal: (state, action)=> {
+            state.landInfo[action.payload].info.state = "exist";
+            const updateList = state.mating.filter((value) => value !== action.payload);
+            state.mating = updateList;
+        }
     }
 });
 
 export default farmSlice;
 export const {right, left} = farmSlice.actions;
 export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
-export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal} = farmSlice.actions;
+export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal, cancelMatingAnimal} = farmSlice.actions;

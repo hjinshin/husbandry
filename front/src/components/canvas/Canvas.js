@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { animalImgObjMap } from './animalImgObjMap';
+import { animalImgObjMap } from '../../data/animalImgObjMap';
 import draw from './draw';
 
 function Canvas(props) {
@@ -23,17 +23,17 @@ function Canvas(props) {
 
         const imagesObj = Array(12).fill(null).map(() => new Image());
         imagesObj[0].src = animalImgObjMap[images[0]].body;
-        imagesObj[1].src = animalImgObjMap[images[0]].head;
-        imagesObj[2].src = animalImgObjMap[images[0]].tail;
-        imagesObj[3].src = animalImgObjMap[images[0]].f_leg;
-        imagesObj[4].src = animalImgObjMap[images[0]].b_leg;
-        imagesObj[5].src = animalImgObjMap[images[0]].wing;
-        imagesObj[6].src = animalImgObjMap[images[0]].body_border;
-        imagesObj[7].src = animalImgObjMap[images[0]].head_border;
-        imagesObj[8].src = animalImgObjMap[images[0]].tail_border;
-        imagesObj[9].src = animalImgObjMap[images[0]].f_leg_border;
-        imagesObj[10].src = animalImgObjMap[images[0]].b_leg_border;
-        imagesObj[11].src = animalImgObjMap[images[0]].wing_border;
+        imagesObj[1].src = animalImgObjMap[images[1]].head;
+        imagesObj[2].src = animalImgObjMap[images[2]].tail;
+        imagesObj[3].src = animalImgObjMap[images[3]].f_leg;
+        imagesObj[4].src = animalImgObjMap[images[4]].b_leg;
+        imagesObj[5].src = animalImgObjMap[images[5]].wing;
+        imagesObj[6].src = animalImgObjMap[images[6]].body_border;
+        imagesObj[7].src = animalImgObjMap[images[7]].head_border;
+        imagesObj[8].src = animalImgObjMap[images[8]].tail_border;
+        imagesObj[9].src = animalImgObjMap[images[9]].f_leg_border;
+        imagesObj[10].src = animalImgObjMap[images[10]].b_leg_border;
+        imagesObj[11].src = animalImgObjMap[images[11]].wing_border;
   
         function animate(timestamp) {
             if (!startTimeRef.current) {
