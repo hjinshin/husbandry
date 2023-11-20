@@ -49,12 +49,16 @@
   .modalBuyBtn {
     width: 90px;
     height: 35px;
-    background-color: lightgreen;
     bottom: 0px;
     font-size: 15px;
     user-select: none;
   }
-
+  .modalBuyBtn.true {
+    background-color: lightgreen;
+  }
+  .modalBuyBtn.false {
+    background-color: rgb(242,127,122);
+  }
   .modalBuyBtn:hover {
     cursor: pointer;
   }

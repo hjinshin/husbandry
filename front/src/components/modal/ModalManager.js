@@ -14,31 +14,33 @@ function ModalManager(props) {
     const dispatch = useDispatch();
     const { bgm, sfx, option_modal, buy_modal, mating_modal, sell_modal } = useSelector(state=>{return state.setting});
     const { land, mating, landInfo } = useSelector(state=>{return state.farm});
-    const { owned_animal, animal_list } = useSelector(state=>{return state.user});
+    const { money, owned_animal, animal_list } = useSelector(state=>{return state.user});
 
+    function buy(e) {
+        if(money >= animalValueObjMap[animal_list[e.target.id]].price) {
+            dispatch(updateAnimalValue({animalValue:animalValueList[e.target.id],index:land}))
+            dispatch(updateAnimalInfo({animalInfo:animalInfoList[e.target.id],index:land}))
+            dispatch(subMoney(animalValueObjMap[animal_list[e.target.id]].price))
+            dispatch(buyModal());
+        }
+    }
+    function sell() {
+        dispatch(addMoney(landInfo[land].info.price));
+        dispatch(emptyLandByNum(land));    
+        dispatch(sellModal());    
+    }
     function animalUnlock(num) {
         if(owned_animal[num]) {
             return (<div style={{width:"100px", height:"150px", margin:"10px"}}>
                         <div style={{width:"100px", height:"115px", display:"flex", justifyContent:"center", alignItems:"center"}}>
                             <img src={animalImageList[num]} alt='worm' width={80}/>
                         </div>
-                        <button className='modalBuyBtn' id={num} onClick={buy}>₩{animalValueObjMap[animal_list[num]].price}</button>
+                        <button className={`modalBuyBtn ${(animalValueObjMap[animal_list[num]].price>money) ? 'false':'true'}`} id={num} onClick={buy}>₩{animalValueObjMap[animal_list[num]].price}</button>
                     </div>)
         }
         else {
             return <div style={{backgroundColor:"lightgray", width:"100px", height:"150px", margin:"10px", display:"flex", justifyContent:"center", alignItems:"center", fontSize:"25px", fontWeight:"bold"}}>?</div>
         }            
-    }
-    function buy(e) {
-        dispatch(updateAnimalValue({animalValue:animalValueList[e.target.id],index:land}))
-        dispatch(updateAnimalInfo({animalInfo:animalInfoList[e.target.id],index:land}))
-        dispatch(subMoney(animalValueObjMap[animal_list[e.target.id]].price))
-        dispatch(buyModal());
-    }
-    function sell() {
-        dispatch(addMoney(landInfo[land].info.price));
-        dispatch(emptyLandByNum(land));    
-        dispatch(sellModal());    
     }
 
     const optionTemplate = (

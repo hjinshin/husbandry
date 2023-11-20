@@ -14,7 +14,7 @@ const userSlice = createSlice({
         status: 'idle',
         money: 500,
         animal_list:["worm", "chicken",],
-        owned_animal:[true, false,],
+        owned_animal:[true, true,],
         currentRequestId: undefined,
         error: null,
     },
