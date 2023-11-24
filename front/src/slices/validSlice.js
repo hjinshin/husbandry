@@ -6,7 +6,6 @@ const fetchCheckCookie = createAsyncThunk(
     'valid/fetchCheckCookie',
     async() => {
         const payload = await api.getCheckCookie();
-        //console.log(payload.data);
         return payload.data;
     }
 )
