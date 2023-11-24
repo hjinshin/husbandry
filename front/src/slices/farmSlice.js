@@ -5,11 +5,15 @@ const farmSlice = createSlice({
     name: 'farm',
     initialState: {
         land: 0,
-        total_land: 3,
+        total_land: 20,
+        owned_land: 3,
         direction: 1,   
         mating: [],
-        landInfo: {1: { info: null, value: null, img: []}, 2: { info: null, value: null, img: [], }, 
-                   3: { info: null, value: null, img: [], },},
+        landInfo: {1: { info: null, value: null, img: []},   2: { info: null, value: null, img: [], },  3: { info: null, value: null, img: [],},  4: {info: null, value: null, img: [], },   5: {info: null, value: null, img: [], }, 
+                   6: { info: null, value: null, img: []},   7: { info: null, value: null, img: [], },  8: { info: null, value: null, img: [] },  9: { info: null, value: null, img: [], }, 10: {info: null, value: null, img: [], }, 
+                   11: { info: null, value: null, img: []}, 12: { info: null, value: null, img: [], }, 13: { info: null, value: null, img: [] }, 14: { info: null, value: null, img: [], }, 15: {info: null, value: null, img: [], }, 
+                   16: { info: null, value: null, img: []}, 17: { info: null, value: null, img: [], }, 18: { info: null, value: null, img: [] }, 19: { info: null, value: null, img: [], }, 20: {info: null, value: null, img: [], },    
+                },
 
     },
     reducers: {
@@ -24,6 +28,12 @@ const farmSlice = createSlice({
                 state.land = state.land - 1;
                 state.direction = -1;
             }
+        },
+        teleport: (state, action)=> {
+            if(state.land <= action.payload)
+                state.direction = 1;
+            else state.direction = -1;
+            state.land = action.payload;
         },
         updateNickName: (state, action)=> {
             const index = action.payload.index;
@@ -101,6 +111,6 @@ const farmSlice = createSlice({
 });
 
 export default farmSlice;
-export const {right, left} = farmSlice.actions;
+export const {right, left, teleport} = farmSlice.actions;
 export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
 export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal, cancelMatingAnimal} = farmSlice.actions;

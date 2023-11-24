@@ -1,14 +1,15 @@
 import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { right, left, playWithAnimal, feedAnimal, cleanAnimal, updateNickName } from '../../slices/farmSlice';
+import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName } from '../../slices/farmSlice';
 import { optionModal, buyModal, matingModal, sellModal } from '../../slices/settingSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
 import Heart from '../../images/heart.svg';
 import Pen from '../../images/pen.png';
-import {landlist} from './landList'
+import Lock from '../../images/lock.png';
+import {landlist} from '../../pages/land/landList'
 import ModalManager from '../modal/ModalManager';
 import './Farm.css';
 
@@ -17,9 +18,8 @@ function Farm(props) {
     const dispatch = useDispatch();
     const [dest, setDest] = useState("farm");
     const [valid, setValid] = useState(false);
-    const {land, total_land, landInfo } = useSelector(state=>{return state.farm});
+    const {land, total_land, landInfo, owned_land } = useSelector(state=>{return state.farm});
     const { money } = useSelector(state=>{return state.user}); 
-
 
     useEffect(()=>{
         if(props.prevLoc) {
@@ -27,7 +27,6 @@ function Farm(props) {
         }
         props.setPrevLoc(false);
     }, [props]);
-
     useEffect(()=>{
         if(dest === "sleep") {
             navigate("./sleep");
@@ -41,7 +40,6 @@ function Farm(props) {
         props.setDuration(dur);
         setDest(des);
     }    
-
     function scaleUpAnimation() {
         if(dest === "tamer") {
             return(<ScaleUp img={Heart} redirectTo={'./tamer'}/>
@@ -60,7 +58,6 @@ function Farm(props) {
             return(<></>);
         }
     }
-
     function selectButton() {
         if(land === 0) {
             return (
@@ -71,7 +68,11 @@ function Farm(props) {
                 <button className='option-button' onClick={()=>dispatch(optionModal())}>옵션</button> 
                 </>
             );
-        } else if(landInfo[land].value === null) {
+        } else if(land > owned_land) {
+            return (
+                <></>
+            )
+        } else if(landInfo[land]?.value === null) {
             return (
                 <>
                 <button className='buy-button' onClick={()=>dispatch(buyModal())}>구입</button> 
@@ -81,7 +82,7 @@ function Farm(props) {
         } else {
             return (
                 <>
-                <input className='input-name' type='text' value={landInfo[land].info?.nickname} 
+                <input className='input-name' type='text' value={landInfo[land]?.info?.nickname} 
                         onChange={(e)=>dispatch(updateNickName({index:land, nickname:e.target.value}))} />
                 <img src={Pen} alt='pen' style={{position:"absolute",height:"15px", right:"50px", top:"104px"}}/>
                 <button className='farmDefaultBtn' style={{left:"50px"}} onClick={()=>dispatch(playWithAnimal(land))}>놀이</button>
@@ -93,6 +94,28 @@ function Farm(props) {
                 </>
             )
         }
+    }
+    function landNav() {
+        const landNavBtn = Array.from({length:20}, (_, index) => index+1);
+        const btnRows = [];
+        for(let i=0; i < landNavBtn.length; i += 5) {
+            btnRows.push(landNavBtn.slice(i, i+5));
+        }
+        return(
+            <>
+            {btnRows.map((row, rowIndex) => (
+                <div key={rowIndex}>
+                    {row.map((num) => (
+                        (owned_land < num) ?
+                           (<button className='land-list-nav-btn' id={num} key={num}><img src={Lock} style={{width:"12px", height:"12px"}} alt='lock'/></button>)
+                        : (<button className='land-list-nav-btn' id={num}  key={num}
+                                    onClick={(e)=>dispatch(teleport(parseInt(e.target.id)))}>{num}</button>)
+                    ))}                    
+                </div>
+            ))}
+
+            </>
+        )
     }
      
     return (
@@ -109,7 +132,7 @@ function Farm(props) {
             <button className='next-button' onClick={()=>dispatch(right())}>&gt;</button> 
             <div className='land-list-nav'>
                 <div className='land-list-nav-title'>토지</div>
-
+                {landNav()}
             </div>
             {selectButton()}
         </div>

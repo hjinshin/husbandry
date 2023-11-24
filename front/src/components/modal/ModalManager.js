@@ -17,10 +17,11 @@ function ModalManager(props) {
     const { money, owned_animal, animal_list } = useSelector(state=>{return state.user});
 
     function buy(e) {
-        if(money >= animalValueObjMap[animal_list[e.target.id]].price) {
-            dispatch(updateAnimalValue({animalValue:animalValueList[e.target.id],index:land}))
-            dispatch(updateAnimalInfo({animalInfo:animalInfoList[e.target.id],index:land}))
-            dispatch(subMoney(animalValueObjMap[animal_list[e.target.id]].price))
+        const num = e.target.id;
+        if(money >= animalValueObjMap[animal_list[num]].price) {
+            dispatch(updateAnimalValue({animalValue:animalValueList[num],index:land}))
+            dispatch(updateAnimalInfo({animalInfo:animalInfoList[num],index:land}))
+            dispatch(subMoney(animalValueObjMap[animal_list[num]].price))
             dispatch(buyModal());
         }
     }

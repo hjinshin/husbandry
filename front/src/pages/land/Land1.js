@@ -7,7 +7,7 @@ import './Land.css'
 
 function Land1(props) {
     const { info, value, img } = useSelector(state=>{
-        return state.farm.landInfo[1];
+        return state.farm.landInfo[props.landKey];
     });
     
     function animalExist() {

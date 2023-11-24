@@ -50,6 +50,16 @@
     background-color: white;
     border-bottom: 2px solid black;
 }
+.land-list-nav-btn {
+    width: 39px;
+    height: 39px;
+    border: 0;
+    user-select: none;
+    z-index: 99;
+}
+.land-list-nav-btn:hover {
+    cursor: pointer;
+}
 .balance {
     font-size: 35px;
     margin-bottom: 30px;
