@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const SERVER_SEARCH_URL = 'http://localhost:8080';
+import { SERVER_SEARCH_URL } from '../config';
 
 export const postNickNm = async(nicnNm) => {
     try {
@@ -8,6 +7,20 @@ export const postNickNm = async(nicnNm) => {
             method: "POST",
             url: SERVER_SEARCH_URL + `/api/nickname`,
             params: {  "nickname": nicnNm  },
+        });
+        //console.log(res.data);
+        return res;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const postpassWd = async(passWd) => {
+    try {
+        const res = await axios({
+            method: "POST",
+            url: SERVER_SEARCH_URL + `/api/passwd`,
+            params: {  "passwd": passWd  },
         });
         //console.log(res.data);
         return res;

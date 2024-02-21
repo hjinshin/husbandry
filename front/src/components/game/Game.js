@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Farm from '../farm/Farm';
@@ -13,11 +13,6 @@ function Game(props) {
     const [duration, setDuration] = useState(0);
     const [prevLoc, setPrevLoc] = useState(true);
     const location = useLocation();
-
-    useEffect(()=> {
-        console.log("game");
-    },[]);
-    
 
     return (
         <div className='game'>

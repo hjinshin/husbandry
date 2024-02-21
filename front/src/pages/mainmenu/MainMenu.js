@@ -9,7 +9,6 @@ function MainMenu(props) {
     const dispatch = useDispatch();
     dispatch(fetchCheckCookie()); 
     const avail = useSelector(state => {
-        //console.log(state.valid.avail);
         return state.valid.cookie;
     }); 
 

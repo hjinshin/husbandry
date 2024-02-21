@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-const SERVER_SEARCH_URL = 'http://localhost:8080';
+import { SERVER_SEARCH_URL } from '../config';
 
 export const getCheckCookie = async() => {
     try {

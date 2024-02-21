@@ -36,8 +36,14 @@ public class TestController {
     }
     @PostMapping("/api/nickname")
     public Boolean createNickName(@RequestParam String nickname) {
-        System.out.println(nickname);
+        System.out.println("nickname: " + nickname);
         UUID uuid4 = UUID.randomUUID();
+        return true;
+    }
+
+    @PostMapping("/api/passwd")
+    public Boolean postPassWd(@RequestParam String passwd) {
+        System.out.println("passwd: " + passwd);
         return true;
     }
 }
