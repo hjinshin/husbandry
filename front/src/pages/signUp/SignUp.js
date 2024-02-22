@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { postNickNm, postpassWd } from '../../APIs/postApi';
 import FadeIn from '../../components/animation/FadeIn';
 import ScaleUp from '../../components/animation/ScaleUp';
-import Heart from '../../images/heart.svg'
-import './SignUp.css'
+import Heart from '../../images/heart.svg';
+import './SignUp.css';
 
 function SignUp(props) {
     const [nickNm, setNickNm] = useState('');
@@ -91,7 +91,7 @@ function SignUp(props) {
         }
     }
     return (
-        <div className='tutorial'>
+        <div>
             <FadeIn transition={{ duration: 0.8 }}>
                 <div className='descript-container'>
                     <p className='descript'>지구에 살고 있는 생명체들은 비싼 가격에 거래됩니다.<br/><br/>

@@ -28,3 +28,19 @@ export const postpassWd = async(passWd) => {
         throw error;
     }
 }
+
+export const postLogin = async(id, pw) => {
+    try {
+        const res = await axios({
+            method: "POST",
+            url: SERVER_SEARCH_URL + `/api/login`,
+            data: {
+                "id": id,
+                "pw": pw
+            }
+        });
+        return res;
+    } catch (error) {
+        throw error;
+    }
+}

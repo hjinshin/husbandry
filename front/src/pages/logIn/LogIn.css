@@ -1,32 +1,44 @@
-.descript {
-    top: 140px;
-    width: 1000px;
-    margin:0 140px;
-    font-size: 38px;
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-descript {
+    top: 100px;
     color: white;
-    position: absolute;
-    user-select : none;
-}
-
-.input-layout {
-    top: 440px;
-    width: 1000px;
-    user-select : none;
-    position: absolute;
-    margin: 0 140px;
-}
-
-.input-descript {
     font-size: 38px;
+    position: absolute;
+}
+.login-box {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    top: 300px;
+    position: absolute;
+}
+.login-label {
+    text-align: left;
+    font-size: 20px;
     color: white;
-    user-select : none;
+    margin-top: 30px;
+    margin-bottom: 5px;
 }
 
-.inputField {
+.IDinputField {
     background-color: transparent;
     height: 47px;
     width: 290px;
-    margin-top: 47px;
+    font-size: 25px;
+    border: 4px solid rgba(255, 255, 255, 0.23);
+    border-radius: 7px;
+    text-align: center;
+    color: white;
+    caret-color: transparent;
+}
+.PWinputField {
+    background-color: transparent;
+    height: 47px;
+    width: 290px;
     font-size: 25px;
     border: 4px solid rgba(255, 255, 255, 0.23);
     border-radius: 7px;
@@ -35,25 +47,24 @@
     caret-color: transparent;
 }
 
-.inputFieldPW {
-    background-color: transparent;
-    height: 47px;
-    width: 290px;
-    margin-top: 50px;
-    font-size: 25px;
-    border: 4px solid rgba(255, 255, 255, 0.23);
-    border-radius: 7px;
-    text-align: center;
-    color: white;
-    caret-color: transparent;
+.login-button {
+    font-size: 22px;
+    margin-top: 20px;
+    height: 40px;
+    user-select : none;   
+    pointer-events: default;
+    cursor: pointer;
 }
 
-.inputField:focus-visible  {
+.login-button:hover {
+    background-color: darkgray;
+}
+
+.IDinputField:focus-visible  {
     outline: none!important;
     border: 4px solid #cccccc;
 }
-
-.inputFieldPW:focus-visible  {
+.PWinputField:focus-visible  {
     outline: none!important;
     border: 4px solid #cccccc;
 }

@@ -1,7 +1,10 @@
 package com.husbandry.back.controller;
 
+import com.husbandry.back.dto.CookieDTO;
+import com.husbandry.back.dto.LoginDTO;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,13 +30,7 @@ public class TestController {
         System.out.println("쿠키가 없습니다.");
         return false;
     }
-    // 닉네임 설정
-    @GetMapping("/api/nickname")
-    public Boolean getNickName(@RequestParam String nickname, Boolean reset) {
-        System.out.println(nickname + " " + reset);
-        UUID uuid4 = UUID.randomUUID();
-        return true;
-    }
+
     @PostMapping("/api/nickname")
     public Boolean createNickName(@RequestParam String nickname) {
         System.out.println("nickname: " + nickname);
@@ -45,5 +42,12 @@ public class TestController {
     public Boolean postPassWd(@RequestParam String passwd) {
         System.out.println("passwd: " + passwd);
         return true;
+    }
+
+    @PostMapping("/api/login")
+    public ResponseEntity<CookieDTO> postLogin(@RequestBody LoginDTO loginDTO) {
+        System.out.println("id: " + loginDTO.getId() + "\npw: " + loginDTO.getPw());
+        UUID uuid4 = UUID.randomUUID();
+        return ResponseEntity.ok().body(new CookieDTO(true, uuid4));
     }
 }
