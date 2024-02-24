@@ -127,3 +127,18 @@
 .prev-button {
     left: 100px;
 }
+
+.land-buy-button.true{
+    width: 150px;
+    height: 40px;
+    background-color: lightgreen;
+    font-size: 25px;
+    cursor: pointer;
+}
+.land-buy-button.false{
+    width: 150px;
+    height: 40px;
+    background-color: rgb(242,127,122);
+    font-size: 25px;
+    cursor: pointer;
+}

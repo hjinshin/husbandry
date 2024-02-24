@@ -1,20 +1,20 @@
-.login{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .login-descript {
     top: 100px;
+    width: 1000px;
+    margin: 0 140px;
     color: white;
     font-size: 38px;
     position: absolute;
+    user-select: none;
 }
 .login-box {
+    top: 300px;
     width: 300px;
     display: flex;
     flex-direction: column;
-    top: 300px;
     position: absolute;
+    justify-content: center;
+    margin: 0 490px;
 }
 .login-label {
     text-align: left;

@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName } from '../../slices/farmSlice';
+import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate } from '../../slices/farmSlice';
 import { optionModal, buyModal, matingModal, sellModal } from '../../slices/settingSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
@@ -16,6 +16,7 @@ import Clean from '../../images/info/clean.png';
 import {landlist} from '../../pages/land/landList'
 import ModalManager from '../modal/ModalManager';
 import './Farm.css';
+import { subMoney } from '../../slices/userSlice';
 
 function Farm(props) {
     const navigate = useNavigate();
@@ -44,6 +45,12 @@ function Farm(props) {
         props.setDuration(dur);
         setDest(des);
     }    
+    function buy(e) {
+        if(money >= (land - 3)*1000 && land-1 === owned_land) {
+            dispatch(subMoney((land - 3)*1000));
+            dispatch(landUpdate());
+        }
+    }
     function scaleUpAnimation() {
         if(dest === "tamer") {
             return(<ScaleUp img={Heart} redirectTo={'./tamer'}/>
@@ -74,7 +81,14 @@ function Farm(props) {
             );
         } else if(land > owned_land) {
             return (
-                <></>
+                <>  
+                <div style={{position:"absolute", top:"250px", width:"1000px", marginLeft:"140px"}}>
+                    <img src={Lock} style={{width:"100px", height:"100px", marginBottom:"20px"}} alt='lock'/>
+                    <p style={{fontSize:"40px", fontWeight:"bold", marginBottom:"20px"}}>판매용</p>
+                    <button className={`land-buy-button ${((land-3)*1000 > money) ? `false`:`true`}`} onClick={buy}>₩{(land - 3)*1000}</button>                    
+                </div>
+
+                </>
             )
         } else if(landInfo[land]?.value === null) {
             return (
@@ -91,7 +105,7 @@ function Farm(props) {
                 <img src={Pen} alt='pen' style={{position:"absolute",height:"15px", right:"50px", top:"104px"}}/>
                 <button className='farmDefaultBtn' style={{left:"50px"}} onClick={()=>dispatch(playWithAnimal(land))}>놀이</button>
                 <button className='farmDefaultBtn' style={{left:"200px"}} onClick={()=>dispatch(feedAnimal(land))}>먹이</button>
-                <button className='farmDefaultBtn' style={{left:"350px"}} onClick={()=>dispatch(cleanAnimal(land))}>정리</button>
+                <button className='farmDefaultBtn' style={{left:"350px"}} onClick={()=>dispatch(cleanAnimal(land))}>청소</button>
                 <button className='farmDefaultBtn' style={{right:"350px"}} onClick={()=>dispatch(sellModal())}>판매</button>
                 <button className='farmDefaultBtn' style={{right:"200px"}} onClick={()=>dispatch(matingModal())}>교배</button>
                 <button className='farmDefaultBtn' style={{right:"50px"}}>정보</button>

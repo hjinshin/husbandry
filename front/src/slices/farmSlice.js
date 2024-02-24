@@ -106,11 +106,14 @@ const farmSlice = createSlice({
             state.landInfo[action.payload].info.state = "exist";
             const updateList = state.mating.filter((value) => value !== action.payload);
             state.mating = updateList;
+        },
+        landUpdate: (state, action) => {
+            state.owned_land += 1;
         }
     }
 });
 
 export default farmSlice;
-export const {right, left, teleport} = farmSlice.actions;
+export const {right, left, teleport, landUpdate} = farmSlice.actions;
 export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
 export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal, cancelMatingAnimal} = farmSlice.actions;
