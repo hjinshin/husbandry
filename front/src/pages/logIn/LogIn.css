@@ -47,6 +47,19 @@
     caret-color: transparent;
 }
 
+
+.back-button {
+    top: 30px;
+    left: 40px;
+    width: 30px;
+    border: 2px solid black;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    user-select: none;
+    cursor: pointer;
+}
 .login-button {
     font-size: 22px;
     margin-top: 20px;

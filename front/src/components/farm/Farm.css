@@ -139,6 +139,7 @@
     width: 150px;
     height: 40px;
     background-color: rgb(242,127,122);
+    border: 2px solid black;
     font-size: 25px;
     cursor: pointer;
 }

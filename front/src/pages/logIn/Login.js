@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../../APIs/postApi';
 import ScaleUp from '../../components/animation/ScaleUp';
 import FadeIn from '../../components/animation/FadeIn';
 import Heart from '../../images/heart.svg';
+import Back_White from '../../images/back_white.png';
+import Back_Gray from '../../images/back_gray.png';
 import'./LogIn.css';
 
 function LogIn(props) {
+    const navigate = useNavigate();
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [valid, setValid] = useState(false);
+    const [isHover, setIsHover] = useState(false);
 
     function handleIDChange(e) {
         setId(e.target.value);
@@ -36,6 +41,14 @@ function LogIn(props) {
     }
     return (
         <div className='login'>
+            <button
+                    onMouseOver={()=>{setIsHover(true);}}
+                    onMouseOut={()=>{setIsHover(false);}}
+                    onClick={()=>{navigate('../');}}>
+                    <img 
+                        className='back-button' 
+                        src={isHover ? Back_Gray:Back_White} alt='back' />                        
+                </button>
             <FadeIn transition={{ duration: 0.8 }}>
                 <p className='login-descript'>사업자명과 비밀번호를 입력해주세요.</p>
                 <form className='login-box' onSubmit={handleSubmit}>
