@@ -6,13 +6,6 @@ import { optionModal, buyModal, matingModal, sellModal } from '../../slices/sett
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
-import Heart from '../../images/heart.svg';
-import Pen from '../../images/pen.png';
-import Lock from '../../images/lock.png';
-import Health from '../../images/info/health.png';
-import Enjoy from '../../images/info/enjoy.png';
-import Feed from '../../images/info/feed.png';
-import Clean from '../../images/info/clean.png';
 import {landlist} from '../../pages/land/landList'
 import ModalManager from '../modal/ModalManager';
 import './Farm.css';
@@ -53,10 +46,10 @@ function Farm(props) {
     }
     function scaleUpAnimation() {
         if(dest === "tamer") {
-            return(<ScaleUp img={Heart} redirectTo={'./tamer'}/>
+            return(<ScaleUp img={'/images/heart.svg'} redirectTo={'./tamer'}/>
             );
         } else if(dest === "breeder") {
-            return(<ScaleUp img={Heart} redirectTo={'./breeder'}/>
+            return(<ScaleUp img={'/images/heart.svg'} redirectTo={'./breeder'}/>
             );
         }else {
             return(<></>);
@@ -64,7 +57,7 @@ function Farm(props) {
     }    
     function scaleDwAnimation() {
         if(valid) {
-            return (<ScaleDown img={Heart} />);
+            return (<ScaleDown img={'/images/heart.svg'} />);
         } else {
             return(<></>);
         }
@@ -83,7 +76,7 @@ function Farm(props) {
             return (
                 <>  
                 <div style={{position:"absolute", top:"250px", width:"1000px", marginLeft:"140px"}}>
-                    <img src={Lock} style={{width:"100px", height:"100px", marginBottom:"20px"}} alt='lock'/>
+                    <img src={'/images/lock.png'} style={{width:"100px", height:"100px", marginBottom:"20px"}} alt='lock'/>
                     <p style={{fontSize:"40px", fontWeight:"bold", marginBottom:"20px"}}>판매용</p>
                     <button className={`land-buy-button ${((land-3)*1000 > money) ? `false`:`true`}`} onClick={buy}>₩{(land - 3)*1000}</button>                    
                 </div>
@@ -102,7 +95,7 @@ function Farm(props) {
                 <>
                 <input className='input-name' type='text' value={landInfo[land]?.info?.nickname} 
                         onChange={(e)=>dispatch(updateNickName({index:land, nickname:e.target.value}))} />
-                <img src={Pen} alt='pen' style={{position:"absolute",height:"15px", right:"50px", top:"104px"}}/>
+                <img src={'/images/pen.png'} alt='pen' style={{position:"absolute",height:"15px", right:"50px", top:"104px"}}/>
                 <button className='farmDefaultBtn' style={{left:"50px"}} onClick={()=>dispatch(playWithAnimal(land))}>놀이</button>
                 <button className='farmDefaultBtn' style={{left:"200px"}} onClick={()=>dispatch(feedAnimal(land))}>먹이</button>
                 <button className='farmDefaultBtn' style={{left:"350px"}} onClick={()=>dispatch(cleanAnimal(land))}>청소</button>
@@ -120,22 +113,22 @@ function Farm(props) {
             {info ? 
             (<><div style={{position:"absolute", top:"100px", left:"50px", backgroundColor:"white", width:"250px", height:"153px", border:"2px solid"}}>
                 <div style={{height:"30px", display:"flex", width:"230px", marginLeft:"10px", marginTop:"5px", alignItems:"center"}}>
-                    <img src={Health} alt='health' style={{width:"23px", height:"23px"}}/>
+                    <img src={'/images/info/health.png'} alt='health' style={{width:"23px", height:"23px"}}/>
                     <div style={{width:`${info.health*38}px`, height:"15px", backgroundColor:`${info.health === 5 ? 'lightgreen':'rgb(241,207,109)'}`, border:"2px solid", marginLeft:"10px"}}/>                   
                     <div style={{width:`${(5-info.health)*38}px`, height:"15px", backgroundColor:"lightgray", borderTop:`${info.health === 5 ? 0:2}px solid`, borderBottom:`${info.health === 5 ? 0:2}px solid`, borderRight:`${info.health === 5 ? 0:2}px solid`}}/>                   
                 </div>
                 <div style={{height:"30px", display:"flex", width:"230px", marginLeft:"10px", marginTop:"5px", alignItems:"center"}}>
-                    <img src={Enjoy} alt='enjoy' style={{width:"23px", height:"23px"}}/>
+                    <img src={'/images/info/enjoy.png'} alt='enjoy' style={{width:"23px", height:"23px"}}/>
                     <div style={{width:`${info.enjoy*38}px`, height:"15px", backgroundColor:`${info.enjoy === 5 ? 'lightgreen':'rgb(241,207,109)'}`, border:"2px solid", marginLeft:"10px"}}/>                   
                     <div style={{width:`${(5-info.enjoy)*38}px`, height:"15px", backgroundColor:"lightgray", borderTop:`${info.enjoy === 5 ? 0:2}px solid`, borderBottom:`${info.enjoy === 5 ? '0':'2'}px solid`, borderRight:`${info.enjoy === 5 ? 0:2}px solid`}}/>   
                 </div>
                 <div style={{height:"30px", display:"flex", width:"230px", marginLeft:"10px", marginTop:"5px", alignItems:"center"}}>
-                    <img src={Feed} alt='feed' style={{width:"23px", height:"23px"}}/>
+                    <img src={'/images/info/feed.png'} alt='feed' style={{width:"23px", height:"23px"}}/>
                     <div style={{width:`${info.feed*38}px`, height:"15px", backgroundColor:`${info.feed === 5 ? 'lightgreen':'rgb(241,207,109)'}`, border:"2px solid", marginLeft:"10px"}}/>                   
                     <div style={{width:`${(5-info.feed)*38}px`, height:"15px", backgroundColor:"lightgray", borderTop:`${info.feed === 5 ? 0:2}px solid`, borderBottom:`${info.feed === 5 ? 0:2}px solid`, borderRight:`${info.feed === 5 ? 0:2}px solid`}}/>   
                 </div>
                 <div style={{height:"30px", display:"flex", width:"230px", marginLeft:"10px", marginTop:"5px", alignItems:"center"}}>
-                    <img src={Clean} alt='clean' style={{width:"23px", height:"23px"}}/>
+                    <img src={'/images/info/clean.png'} alt='clean' style={{width:"23px", height:"23px"}}/>
                     <div style={{width:`${info.clean*38}px`, height:"15px", backgroundColor:`${info.clean === 5 ? 'lightgreen':'rgb(241,207,109)'}`, border:"2px solid", marginLeft:"10px"}}/>                   
                     <div style={{width:`${(5-info.clean)*38}px`, height:"15px", backgroundColor:"lightgray", borderTop:`${info.clean === 5 ? 0:2}px solid`, borderBottom:`${info.clean === 5 ? 0:2}px solid`, borderRight:`${info.clean === 5 ? 0:2}px solid`}}/>   
                 </div>
@@ -160,7 +153,7 @@ function Farm(props) {
                 <div key={rowIndex}>
                     {row.map((num) => (
                         (owned_land < num) ?
-                           (<button className='land-list-nav-btn' id={num} key={num}><img src={Lock} style={{width:"12px", height:"12px"}} alt='lock'/></button>)
+                           (<button className='land-list-nav-btn' id={num} key={num}><img src={'/images/lock.png'} style={{width:"12px", height:"12px"}} alt='lock'/></button>)
                         : (<button className='land-list-nav-btn' id={num}  key={num}
                                     onClick={(e)=>dispatch(teleport(parseInt(e.target.id)))}>{num}</button>)
                     ))}                    

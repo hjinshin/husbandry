@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ScaleDown from '../../components/animation/ScaleDown';
 import ScaleUp from '../../components/animation/ScaleUp';
-import Heart from '../../images/heart.svg';
 
 function Tamer(props) {
     const [goToFarm, setGoToFarm] = useState(false);
@@ -12,10 +11,10 @@ function Tamer(props) {
 
     return (
         <div>
-            <ScaleDown img={Heart} />
+            <ScaleDown img={'/images/heart.svg'} />
             조련사
             <button onClick={()=>setGoToFarm(true)} >farm</button>   
-            {goToFarm && <ScaleUp img={Heart} redirectTo={'..'}/>}
+            {goToFarm && <ScaleUp img={'/images/heart.svg'} redirectTo={'..'}/>}
         </div>
     );
 }

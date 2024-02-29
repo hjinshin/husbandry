@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { postNickNm, postpassWd } from '../../APIs/postApi';
 import FadeIn from '../../components/animation/FadeIn';
 import ScaleUp from '../../components/animation/ScaleUp';
-import Heart from '../../images/heart.svg';
-import Back_White from '../../images/back_white.png';
-import Back_Gray from '../../images/back_gray.png';
 import './SignUp.css';
 
 function SignUp(props) {
@@ -14,7 +11,6 @@ function SignUp(props) {
     const [passwd, setPasswd] = useState('');
     const [valid, setValid] = useState(false);
     const [passwdvalid, setPasswdValid] = useState(false);
-    const [isHover, setIsHover] = useState(false);
 
     async function handleNickNameSubmit(e) {
         e.preventDefault();
@@ -89,7 +85,7 @@ function SignUp(props) {
 
     function heartAnimation() {
         if(valid) {
-            return(<ScaleUp img={Heart} redirectTo={'/game'}/>
+            return(<ScaleUp img={'/images/heart.svg'} redirectTo={'/game'}/>
             );
         } else {
             return(<></>);
@@ -99,12 +95,8 @@ function SignUp(props) {
         <div>
             <FadeIn transition={{ duration: 0.8 }}>
                 <button
-                    onMouseOver={()=>{setIsHover(true);}}
-                    onMouseOut={()=>{setIsHover(false);}}
-                    onClick={()=>{navigate('../');}}>
-                    <img 
-                        className='back-button' 
-                        src={isHover ? Back_Gray:Back_White} alt='back' />                        
+                    className='back-button-signup'
+                    onClick={()=>{navigate('../');}}>                      
                 </button>
                 <div className='descript-container'>
                     <p className='descript'>지구에 살고 있는 생명체들은 비싼 가격에 거래됩니다.<br/><br/>

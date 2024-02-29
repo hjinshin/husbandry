@@ -1,9 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import Canvas from '../../components/canvas/Canvas';
-import Ground from '../../images/background/ground.png';
-import Heart from '../../images/heart.svg';
-import './Land.css'
+import './Land.css';
 
 function Land1(props) {
     const { info, value, img } = useSelector(state=>{
@@ -15,7 +13,7 @@ function Land1(props) {
             if(info.state === "exist")
                 return (<Canvas animal={value} images={img} width={1280} height={720}/>);
             else if(info.state === "mating")
-                return(<img src={Heart} alt='mating' style={{position:"absolute", width:"150px", left:"565px", bottom:"110px"}}/>)
+                return(<img src={'/images/heart.svg'} alt='mating' style={{position:"absolute", width:"150px", left:"565px", bottom:"110px"}}/>)
         } else
             return (<></>);
         
@@ -25,7 +23,7 @@ function Land1(props) {
 
     return (
         <div className='land'>
-            <img className="land-ground-img" src={Ground} alt='ground'/>
+            <img className="land-ground-img" src={'/images/background/ground.png'} alt='ground'/>
             {animalExist()}           
         </div>
     );
