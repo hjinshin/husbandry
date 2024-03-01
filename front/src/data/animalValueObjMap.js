@@ -18,6 +18,7 @@ export const animalValueObjMap = {
         r: 25,
         price: 20,
         color: "invert(38%) sepia(70%) saturate(2034%) hue-rotate(166deg) brightness(102%) contrast(103%)",
+        korean_name: "벌레",
     },
     chicken: {
         w: 1,
@@ -38,6 +39,7 @@ export const animalValueObjMap = {
         r: 25,
         price: 40,
         color: "invert(38%) sepia(70%) saturate(2034%) hue-rotate(166deg) brightness(102%) contrast(103%)",
+        korean_name: "닭",
     },
 };
 

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
-import { optionModal, buyModal, matingModal, sellModal } from '../../slices/settingSlice';
+import { optionModal, buyModal, matingModal, sellModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal } from '../../slices/settingSlice';
 import { bgmRaise, bgmLower, sfxRaise, sfxLower } from '../../slices/settingSlice';
 import { updateAnimalValue, updateAnimalInfo, emptyLandByNum, matingAnimal, cancelMatingAnimal } from '../../slices/farmSlice';
-import { addMoney, subMoney } from '../../slices/userSlice';
+import { addMoney, subMoney, getAnimal } from '../../slices/userSlice';
 import { animalValueObjMap, animalValueList } from '../../data/animalValueObjMap';
 import { animalImageList } from '../../data/animalImgObjMap';
 import { animalInfoList } from '../../data/animalInfoObjList';
@@ -13,8 +13,10 @@ import './Modal.css';
 function ModalManager(props) {
     const dispatch = useDispatch();
     const { bgm, sfx, option_modal, buy_modal, mating_modal, sell_modal } = useSelector(state=>{return state.setting});
+    const { tamer_normal_modal, tamer_unnormal_modal, tamer_rare_modal, tamer_legendary_modal, tamer_draw_result_modal, tamer_fillout_modal, tamer_poverty_modal } = useSelector(state=>{return state.setting});
     const { land, mating, landInfo } = useSelector(state=>{return state.farm});
     const { money, owned_animal, animal_list } = useSelector(state=>{return state.user});
+    const [drawResultNum, SetDrawResultNum] = useState(0);
 
     function buy(e) {
         const num = e.target.id;
@@ -24,17 +26,18 @@ function ModalManager(props) {
             dispatch(subMoney(animalValueObjMap[animal_list[num]].price))
             dispatch(buyModal());
         }
-    }
+    };
     function sell() {
         dispatch(addMoney(landInfo[land].info.price));
         dispatch(emptyLandByNum(land));    
         dispatch(sellModal());    
-    }
+    };
     function animalUnlock(num) {
         if(owned_animal[num]) {
             return (<div style={{width:"100px", height:"150px", margin:"10px"}}>
-                        <div style={{width:"100px", height:"115px", display:"flex", justifyContent:"center", alignItems:"center"}}>
-                            <img src={animalImageList[num]} alt='worm' width={80}/>
+                        <div style={{width:"100px", height:"115px",justifyContent:"center", alignItems:"center"}}>
+                            <img src={animalImageList[num]} alt='animal' width={80} height={90}/>
+                            <p>{animalValueObjMap[animal_list[num]].korean_name}</p>
                         </div>
                         <button className={`modalBuyBtn ${(animalValueObjMap[animal_list[num]].price>money) ? 'false':'true'}`} id={num} onClick={buy}>₩{animalValueObjMap[animal_list[num]].price}</button>
                     </div>)
@@ -42,6 +45,68 @@ function ModalManager(props) {
         else {
             return <div style={{backgroundColor:"lightgray", width:"100px", height:"150px", margin:"10px", display:"flex", justifyContent:"center", alignItems:"center", fontSize:"25px", fontWeight:"bold"}}>?</div>
         }            
+    };
+    function animalDraw(option, amount) {
+        dispatch(tamerModal(option));
+        if(money < amount) {
+            return dispatch(tamerPovertyModal());
+        }
+        // 서버에 동물 뽑기 요청
+        const res = true;
+        const res_num = 1;
+        SetDrawResultNum(res_num);
+
+        if(res) {
+            dispatch(subMoney(amount));
+            dispatch(getAnimal(res_num));
+            return dispatch(tamerDrawResultModal());
+        } else {
+            return dispatch(tamerFillOutModal());
+        }
+    };
+    function tamerTemplate() {
+        if(tamer_normal_modal) {
+            return(
+                <Modal style={{width:"440px", height:"200px"}}>
+                    <p style={{width:"340px",right:"50px",top:"30px",position:"absolute", fontSize:"26px"}}>₩100으로 일반적인 동물을 무작위로 뽑으시겠습니까?</p>
+                    <button className="modalDefaultBtn" onClick={()=>animalDraw(1, 100)}
+                            style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"50px", backgroundColor:"lightgreen"}}>네</button> 
+                    <button className="modalDefaultBtn" onClick={()=>dispatch(tamerModal(1))}
+                        style={{width:"120px",height:"50px",position:"absolute",top:"120px", right:"50px", backgroundColor:"rgb(242,127,122)"}}>아니오</button>
+                </Modal>
+            )            
+        } else if(tamer_unnormal_modal) {
+            return(
+                <Modal style={{width:"440px", height:"200px"}}>
+                    <p style={{width:"340px",right:"50px",top:"30px",position:"absolute", fontSize:"26px"}}>₩1,000으로 일반적인 동물을 무작위로 뽑으시겠습니까?</p>
+                    <button className="modalDefaultBtn" onClick={()=>animalDraw(2, 1000)}
+                            style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"50px", backgroundColor:"lightgreen"}}>네</button> 
+                    <button className="modalDefaultBtn" onClick={()=>dispatch(tamerModal(2))}
+                        style={{width:"120px",height:"50px",position:"absolute",top:"120px", right:"50px", backgroundColor:"rgb(242,127,122)"}}>아니오</button>
+                </Modal>
+            )            
+        }  else if(tamer_rare_modal) {
+            return(
+                <Modal style={{width:"440px", height:"200px"}}>
+                    <p style={{width:"340px",right:"50px",top:"30px",position:"absolute", fontSize:"26px"}}>₩10,000으로 일반적인 동물을 무작위로 뽑으시겠습니까?</p>
+                    <button className="modalDefaultBtn" onClick={()=>animalDraw(3, 10000)}
+                            style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"50px", backgroundColor:"lightgreen"}}>네</button> 
+                    <button className="modalDefaultBtn" onClick={()=>dispatch(tamerModal(3))}
+                        style={{width:"120px",height:"50px",position:"absolute",top:"120px", right:"50px", backgroundColor:"rgb(242,127,122)"}}>아니오</button>
+                </Modal>
+            )            
+        }  else if(tamer_legendary_modal) {
+            return(
+                <Modal style={{width:"440px", height:"200px"}}>
+                    <p style={{width:"340px",right:"50px",top:"30px",position:"absolute", fontSize:"26px"}}>₩100,000으로 일반적인 동물을 무작위로 뽑으시겠습니까?</p>
+                    <button className="modalDefaultBtn" onClick={()=>animalDraw(4, 100000)}
+                            style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"50px", backgroundColor:"lightgreen"}}>네</button> 
+                    <button className="modalDefaultBtn" onClick={()=>dispatch(tamerModal(4))}
+                        style={{width:"120px",height:"50px",position:"absolute",top:"120px", right:"50px", backgroundColor:"rgb(242,127,122)"}}>아니오</button>
+                </Modal>
+            )            
+        }
+
     }
 
     const optionTemplate = (
@@ -130,7 +195,32 @@ function ModalManager(props) {
             }
 
         </Modal>
-    )
+    );
+    const tamerDrawResultTemplate = (
+        <Modal style={{width:"400px", height:"310px"}}>
+            <div style={{position:"absolute", width:"100px", height:"115px", left:"150px",justifyContent:"center", alignItems:"center"}}>
+                            <img src={animalImageList[drawResultNum]} alt='animal' width={80} height={90}/>
+                            <p style={{margin:"5px", fontSize:"23px", fontWeight:"bold"}}>{animalValueObjMap[animal_list[drawResultNum]].korean_name}</p>
+                        </div>
+            <p style={{width:"300px",right:"50px",top:"160px",position:"absolute", fontSize:"25px"}}>이제 목장에서 이 동물을 구입할 수 있습니다.</p>
+            <button className="modalDefaultBtn" onClick={()=>{dispatch(tamerDrawResultModal()); }}
+                style={{width:"120px",height:"50px",position:"absolute",top:"230px", left:"140px", backgroundColor:"lightgreen"}}>확인</button> 
+        </Modal>              
+    );
+    const tamerFillOutTemplate = (
+        <Modal style={{width:"400px", height:"200px"}}>
+            <p style={{width:"300px",right:"50px",top:"30px",position:"absolute", fontSize:"25px"}}>모든 동물을 소유하고 있습니다.</p>
+            <button className="modalDefaultBtn" onClick={()=>dispatch(tamerFillOutModal())}
+                style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"140px", backgroundColor:"lightgreen"}}>확인</button> 
+        </Modal>
+    );
+    const tamerPovertyTemplate = (
+        <Modal style={{width:"400px", height:"200px"}}>
+            <p style={{width:"300px",right:"50px",top:"30px",position:"absolute", fontSize:"25px"}}>소지금이 부족합니다.</p>
+            <button className="modalDefaultBtn" onClick={()=>dispatch(tamerPovertyModal())}
+                style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"140px", backgroundColor:"lightgreen"}}>확인</button> 
+        </Modal>
+    );
 
     function showModal() {
         // 옵션 모달
@@ -143,6 +233,14 @@ function ModalManager(props) {
             else                                            return matingTemplate;
         } else if(sell_modal) {
             return sellTemplate;
+        } else if(tamer_normal_modal || tamer_unnormal_modal || tamer_rare_modal || tamer_legendary_modal) {
+            return tamerTemplate();
+        } else if(tamer_draw_result_modal) {
+            return tamerDrawResultTemplate;
+        } else if(tamer_fillout_modal) {
+            return tamerFillOutTemplate;
+        } else if(tamer_poverty_modal) {
+            return tamerPovertyTemplate;
         }
         return <></>;
     }

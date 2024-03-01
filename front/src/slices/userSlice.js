@@ -12,9 +12,9 @@ const userSlice = createSlice({
     initialState: {
         Info: false,
         status: 'idle',
-        money: 5500,
+        money: 5000,
         animal_list:["worm", "chicken",],
-        owned_animal:[true, true,],
+        owned_animal:[true, false,],
         currentRequestId: undefined,
         error: null,
     },
@@ -24,6 +24,9 @@ const userSlice = createSlice({
         },
         subMoney: (state, action)=> {
             state.money -= action.payload;
+        },
+        getAnimal: (state, action)=> {
+            state.owned_animal[action.payload] = true;
         },
     },
     extraReducers: (builder) => {
@@ -53,4 +56,4 @@ const userSlice = createSlice({
 });
 export default userSlice;
 export { fetchUserInfoByNickNm };
-export const { addMoney, subMoney } = userSlice.actions;
+export const { addMoney, subMoney, getAnimal } = userSlice.actions;
