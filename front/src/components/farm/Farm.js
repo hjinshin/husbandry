@@ -107,7 +107,6 @@ function Farm(props) {
         }
     }
     function animal_info(info) {
-        console.log(info);
         return (
             <>
             {info ? 
@@ -153,9 +152,11 @@ function Farm(props) {
                 <div key={rowIndex}>
                     {row.map((num) => (
                         (owned_land < num) ?
-                           (<button className='land-list-nav-btn' id={num} key={num}><img src={'/images/lock.png'} style={{width:"12px", height:"12px"}} alt='lock'/></button>)
-                        : (<button className='land-list-nav-btn' id={num}  key={num}
-                                    onClick={(e)=>dispatch(teleport(parseInt(e.target.id)))}>{num}</button>)
+                           (<button className='land-list-nav-btn' id={num} key={num}><img src={'/images/lock.png'} style={{width:"15px"}} alt='lock'/></button>)
+                        :  (<button className={`land-list-nav-btn ${landInfo[num].info === null ? "exist":""}`} id={num}  key={num}
+                                    onClick={(e)=>dispatch(teleport(parseInt(e.currentTarget.id)))}>
+                                        {landInfo[num].info?.state === "mating" ? <img src='/images/heart.svg' alt='mating' style={{width:"18px"}}/>:num}
+                            </button>)
                     ))}                    
                 </div>
             ))}

@@ -24,8 +24,6 @@ function Tamer(props) {
             </button>
             <ScaleDown img={'/images/heart.svg'} />
             <p style={{position:"absolute", top:"30px" , left:"140px", width:"1000px",fontSize:"35px", fontWeight:"bold", userSelect:"none"}}>₩{money}</p>
-
-            조련사
             <div className='tamer-container'>
                 <p className='tamer-descript'>어서오세요!<br/><br/> 여기에서 지구의 모든 동물을 찾을 수 있습니다.<br/><br/><br/>무엇을 가져올까요?</p>
             </div>

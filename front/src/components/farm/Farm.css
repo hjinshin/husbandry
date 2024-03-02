@@ -34,7 +34,7 @@
     position: absolute;
     z-index: 99;
     width: 200px;
-    height: 200px;
+    height: 198px;
     top: 150px;
     right: 50px;
     background-color: lightgray;
@@ -54,8 +54,12 @@
     width: 39px;
     height: 39px;
     border: 0;
+    font-size: 20px;
     user-select: none;
     z-index: 99;
+    &.exist {
+        color: green;
+    }
 }
 .land-list-nav-btn:hover {
     cursor: pointer;
