@@ -42,8 +42,3 @@ export const animalValueObjMap = {
         korean_name: "닭",
     },
 };
-
-export const animalValueList = [
-    {w:0.6, height: 50, width: 215, color:"worm", h_head:"worm", w_head:"worm", h_body:"worm", w_body:"worm", h_tail:"worm", w_tail:"worm", h_f_leg:"worm", w_f_leg:"worm", h_b_leg:"worm", w_b_leg:"worm", h_wing:"worm", w_wing:"worm", r:"worm"},
-    {w:1, height: 119, width: 100, color:"chicken", h_head:"chicken", w_head:"chicken", h_body:"chicken", w_body:"chicken", h_tail:"chicken", w_tail:"chicken", h_f_leg:"chicken", w_f_leg:"chicken", h_b_leg:"chicken", w_b_leg:"chicken", h_wing:"chicken", w_wing:"chicken", r:"chicken"},
-]

@@ -10,6 +10,7 @@ const settingSlice = createSlice({
         buy_modal: false,
         mating_modal: false,
         sell_modal: false,
+        bring_modal: false,
         tamer_normal_modal: false,
         tamer_unnormal_modal: false,
         tamer_rare_modal: false,
@@ -17,6 +18,7 @@ const settingSlice = createSlice({
         tamer_fillout_modal: false,
         tamer_draw_result_modal: false,
         tamer_poverty_modal: false,
+        animal_list:["worm", "chicken",],
     },
     reducers: {
         bgmRaise: (state, action)=> {
@@ -43,6 +45,9 @@ const settingSlice = createSlice({
         sellModal: (state, action)=> {
             state.sell_modal = !state.sell_modal;
         },
+        bringModal: (state, action)=> {
+            state.bring_modal = !state.bring_modal;
+        },
         tamerModal: (state, action)=> {
             if(action.payload === 1) {
                 state.tamer_normal_modal = !state.tamer_normal_modal;
@@ -68,4 +73,4 @@ const settingSlice = createSlice({
 
 export default settingSlice;
 export const {bgmRaise, bgmLower, sfxRaise, sfxLower} = settingSlice.actions;
-export const {optionModal, buyModal, matingModal, sellModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal} = settingSlice.actions;
+export const {optionModal, buyModal, matingModal, sellModal, bringModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal} = settingSlice.actions;

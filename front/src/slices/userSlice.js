@@ -13,10 +13,13 @@ const userSlice = createSlice({
         Info: false,
         status: 'idle',
         money: 8000,
-        animal_list:["worm", "chicken",],
+        day: 1,
+        baby: null, // w, height, width, color, h_head, w_head, h_body, w_body, h_tail, w_tail, h_f_leg, w_f_leg, 
+                    //h_b_leg, w_b_leg, h_wing, w_wing, r, price, nickname
         owned_animal:[true, false,],
         currentRequestId: undefined,
         error: null,
+        did_breed: false,
     },
     reducers: {
         addMoney: (state, action)=> {
@@ -28,6 +31,19 @@ const userSlice = createSlice({
         getAnimal: (state, action)=> {
             state.owned_animal[action.payload] = true;
         },
+        nextDay: (state, action)=> {
+            state.day += 1;
+        },
+        clearBaby:(state, action)=> {
+            state.baby = null;
+        },
+        breeding: (state, action) => {
+            state.did_breed = true;
+        },
+        clearBreeding: (state, action) => {
+            state.did_breed = false;
+        },
+
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUserInfoByNickNm.pending, (state,action)=>{
@@ -56,4 +72,4 @@ const userSlice = createSlice({
 });
 export default userSlice;
 export { fetchUserInfoByNickNm };
-export const { addMoney, subMoney, getAnimal } = userSlice.actions;
+export const { addMoney, subMoney, getAnimal, nextDay, clearBaby, breeding, clearBreeding } = userSlice.actions;

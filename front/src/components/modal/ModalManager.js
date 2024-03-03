@@ -1,37 +1,49 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
-import { optionModal, buyModal, matingModal, sellModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal } from '../../slices/settingSlice';
+import { optionModal, buyModal, matingModal, sellModal, bringModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal } from '../../slices/settingSlice';
 import { bgmRaise, bgmLower, sfxRaise, sfxLower } from '../../slices/settingSlice';
 import { updateAnimalValue, updateAnimalInfo, emptyLandByNum, matingAnimal, cancelMatingAnimal } from '../../slices/farmSlice';
-import { addMoney, subMoney, getAnimal } from '../../slices/userSlice';
-import { animalValueObjMap, animalValueList } from '../../data/animalValueObjMap';
+import { addMoney, subMoney, getAnimal, clearBaby } from '../../slices/userSlice';
+import { animalValueObjMap } from '../../data/animalValueObjMap';
 import { animalImageList } from '../../data/animalImgObjMap';
-import { animalInfoList } from '../../data/animalInfoObjList';
 import './Modal.css';
 
 function ModalManager(props) {
     const dispatch = useDispatch();
-    const { bgm, sfx, option_modal, buy_modal, mating_modal, sell_modal } = useSelector(state=>{return state.setting});
+    const { animal_list, bgm, sfx, option_modal, buy_modal, mating_modal, sell_modal, bring_modal } = useSelector(state=>{return state.setting});
     const { tamer_normal_modal, tamer_unnormal_modal, tamer_rare_modal, tamer_legendary_modal, tamer_draw_result_modal, tamer_fillout_modal, tamer_poverty_modal } = useSelector(state=>{return state.setting});
     const { land, mating, landInfo } = useSelector(state=>{return state.farm});
-    const { money, owned_animal, animal_list } = useSelector(state=>{return state.user});
+    const { money, owned_animal, baby, did_breed } = useSelector(state=>{return state.user});
     const [drawResultNum, SetDrawResultNum] = useState(0);
 
     function buy(e) {
         const num = e.target.id;
-        if(money >= animalValueObjMap[animal_list[num]].price) {
-            dispatch(updateAnimalValue({animalValue:animalValueList[num],index:land}))
-            dispatch(updateAnimalInfo({animalInfo:animalInfoList[num],index:land}))
-            dispatch(subMoney(animalValueObjMap[animal_list[num]].price))
+        const name_list = ["말랑이", "꼬꼬"];
+        const ani = animal_list[num];
+        const temp_profile = {w:animalValueObjMap[ani].w, height:animalValueObjMap[ani].height, width:animalValueObjMap[ani].width, color:ani, h_head:ani, w_head:ani, h_body:ani, w_body:ani, h_tail:ani, w_tail:ani, h_f_leg:ani, w_f_leg:ani, h_b_leg:ani, w_b_leg:ani, h_wing:ani, w_wing:ani, r:ani};
+        const temp_info = {price:animalValueObjMap[ani].price, nickname:name_list[num], state: "exist", age:5, health:5, enjoy:5, feed:5, clean:5};
+
+        if(money >= animalValueObjMap[ani].price) {
+            dispatch(updateAnimalValue({animalValue:temp_profile,index:land}));
+            dispatch(updateAnimalInfo({animalInfo:temp_info,index:land}));
+            dispatch(subMoney(animalValueObjMap[ani].price));
             dispatch(buyModal());
         }
-    };
+    }
     function sell() {
         dispatch(addMoney(landInfo[land].info.price));
         dispatch(emptyLandByNum(land));    
         dispatch(sellModal());    
-    };
+    }
+    function bringFromBreeder(b) {
+        const temp_profile = {w:b.w, height:b.height, width:b.width, color:b.color, h_head:b.h_head, w_head:b.w_head, h_body:b.h_body, w_body:b.w_body, h_tail:b.h_tail, w_tail:b.w_tail, h_f_leg:b.h_f_leg, w_f_leg:b.w_f_leg, h_b_leg:b.h_b_leg, w_b_leg:b.w_b_leg, h_wing:b.h_wing, w_wing:b.w_wing, r:b.r};
+        const temp_info = {price:b.price, nickname:b.nickname, state: "exist", age:5, health:5, enjoy:5, feed:5, clean:5};
+        dispatch(updateAnimalValue({animalValue:temp_profile,index:land}));
+            dispatch(updateAnimalInfo({animalInfo:temp_info,index:land}));
+        dispatch(bringModal());
+        clearBaby();
+    }
     function animalUnlock(num) {
         if(owned_animal[num]) {
             return (<div style={{width:"100px", height:"150px", margin:"10px"}}>
@@ -45,7 +57,7 @@ function ModalManager(props) {
         else {
             return <div style={{backgroundColor:"lightgray", width:"100px", height:"150px", margin:"10px", display:"flex", justifyContent:"center", alignItems:"center", fontSize:"25px", fontWeight:"bold"}}>?</div>
         }            
-    };
+    }
     function animalDraw(option, amount) {
         dispatch(tamerModal(option));
         if(money < amount) {
@@ -63,7 +75,7 @@ function ModalManager(props) {
         } else {
             return dispatch(tamerFillOutModal());
         }
-    };
+    }
     function tamerTemplate() {
         if(tamer_normal_modal) {
             return(
@@ -196,6 +208,29 @@ function ModalManager(props) {
 
         </Modal>
     );
+    const bringTemplate = (
+        <Modal style={{width:"400px", height:"200px"}}>
+            {(baby !== null) ? <>            
+            <p style={{width:"300px",right:"50px",top:"30px",position:"absolute", fontSize:"30px"}}>육종가로부터 아기를 얻어오시겠습니까?</p>
+            <div>
+                <button className="modalDefaultBtn" onClick={()=>bringFromBreeder(baby)}
+                    style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"50px", backgroundColor:"lightgreen"}}>네</button> 
+                <button className="modalDefaultBtn" onClick={()=>dispatch(bringModal())}
+                    style={{width:"120px",height:"50px",position:"absolute",top:"120px", right:"50px", backgroundColor:"rgb(242,127,122)"}}>아니오</button>
+            </div></> 
+            : ((did_breed) ? <>
+            <p style={{width:"350px",right:"25px",top:"30px",position:"absolute", fontSize:"30px"}}>새 동물은 내일 가져올 수 있습니다.</p>
+            <button className='modalDefaultBtn' onClick={()=>dispatch(bringModal())}
+                style={{width:"180px",height:"50px",position:"absolute",top:"120px", left:"110px", backgroundColor:"rgb(242,127,122)"}}>확인</button>
+            </> : <>
+            <p style={{width:"350px",right:"25px",top:"30px",position:"absolute", fontSize:"30px"}}>육종가에게 동물을 보내주세요.</p>
+            <button className='modalDefaultBtn' onClick={()=>dispatch(bringModal())}
+                style={{width:"180px",height:"50px",position:"absolute",top:"120px", left:"110px", backgroundColor:"rgb(242,127,122)"}}>확인</button>
+            </>)
+            }
+
+        </Modal>
+    );
     const tamerDrawResultTemplate = (
         <Modal style={{width:"400px", height:"310px"}}>
             <div style={{position:"absolute", width:"100px", height:"115px", left:"150px",justifyContent:"center", alignItems:"center"}}>
@@ -233,6 +268,8 @@ function ModalManager(props) {
             else                                            return matingTemplate;
         } else if(sell_modal) {
             return sellTemplate;
+        } else if(bring_modal) {
+            return bringTemplate;
         } else if(tamer_normal_modal || tamer_unnormal_modal || tamer_rare_modal || tamer_legendary_modal) {
             return tamerTemplate();
         } else if(tamer_draw_result_modal) {

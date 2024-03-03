@@ -2,7 +2,7 @@ import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate } from '../../slices/farmSlice';
-import { optionModal, buyModal, matingModal, sellModal } from '../../slices/settingSlice';
+import { optionModal, buyModal, matingModal, sellModal, bringModal } from '../../slices/settingSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
@@ -30,10 +30,7 @@ function Farm(props) {
             navigate("./sleep");
         }
     }, [dest, navigate]);
-
-    function temp() {
-        console.log("temp");
-    }
+    
     function goTo(dur, des) {
         props.setDuration(dur);
         setDest(des);
@@ -43,6 +40,9 @@ function Farm(props) {
             dispatch(subMoney((land - 3)*1000));
             dispatch(landUpdate());
         }
+    }
+    function bring() {
+        dispatch(bringModal());
     }
     function scaleUpAnimation() {
         if(dest === "tamer") {
@@ -87,7 +87,7 @@ function Farm(props) {
             return (
                 <>
                 <button className='buy-button' onClick={()=>dispatch(buyModal())}>구입</button> 
-                <button className='bring-button' onClick={temp}>가져오기</button> 
+                <button className='bring-button' onClick={()=>bring()}>가져오기</button> 
                 </>
             )
         } else {

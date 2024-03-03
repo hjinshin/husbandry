@@ -3,12 +3,13 @@ import ScaleDown from '../../components/animation/ScaleDown';
 import ScaleUp from '../../components/animation/ScaleUp';
 import './Breeder.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { breeding } from '../../slices/farmSlice';
+import { breeding } from '../../slices/userSlice';
 
 function Breeder(props) {
     const dispatch = useDispatch();
     const [goToFarm, setGoToFarm] = useState(false);
-    const {mating, did_breed} = useSelector(state=>{return state.farm});
+    const {mating} = useSelector(state=>{return state.farm});
+    const {did_breed} = useSelector(state=>{return state.user});
 
     useEffect(()=> {
         props.setPrevLoc(true);
@@ -46,7 +47,7 @@ function Breeder(props) {
             return(
             <>
                 <div className='breeder-container'>
-                    <p className='breeder-descrpit'>아기를 보내주셔서 감사합니다! 교배를 시작할 준비가 되었어요.
+                    <p className='breeder-descript'>아기를 보내주셔서 감사합니다! 교배를 시작할 준비가 되었어요.
                         <br/><br/><br/><br/>
                         시작하시겠습니까?
                     </p>

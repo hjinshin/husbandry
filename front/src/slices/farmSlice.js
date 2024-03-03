@@ -14,8 +14,6 @@ const farmSlice = createSlice({
                    11: { info: null, value: null, img: []}, 12: { info: null, value: null, img: [], }, 13: { info: null, value: null, img: [] }, 14: { info: null, value: null, img: [], }, 15: {info: null, value: null, img: [], }, 
                    16: { info: null, value: null, img: []}, 17: { info: null, value: null, img: [], }, 18: { info: null, value: null, img: [] }, 19: { info: null, value: null, img: [], }, 20: {info: null, value: null, img: [], },    
                 },
-        did_breed: false,
-
     },
     reducers: {
         right: (state, action)=> {
@@ -111,16 +109,10 @@ const farmSlice = createSlice({
         landUpdate: (state, action) => {
             state.owned_land += 1;
         },
-        breeding: (state, action) => {
-            state.did_breed = true;
-        },
-        clearBreeding: (state, action) => {
-            state.did_breed = false;
-        },
     }
 });
 
 export default farmSlice;
 export const {right, left, teleport, landUpdate} = farmSlice.actions;
 export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
-export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal, cancelMatingAnimal, breeding, clearBreeding} = farmSlice.actions;
+export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal, cancelMatingAnimal} = farmSlice.actions;
