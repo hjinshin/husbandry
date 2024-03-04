@@ -37,7 +37,7 @@ function Breeder(props) {
             return(
                 <>
                 <div className='breeder-container'>
-                    <p className='breeder-descript'>2마리 이상의 동물을 보내주세요!</p>
+                    <p className='breeder-descript'>2마리의 동물을 보내주세요!</p>
                 </div>
                 <button style={{position:"absolute", top:"400px", width:"150px", height:"40px", backgroundColor:"rgb(242,127,122)", fontSize:"25px", cursor:"pointer"}}
                 onClick={()=>{setGoToFarm(true);}}>돌아가기</button>  
@@ -67,7 +67,6 @@ function Breeder(props) {
                 onClick={()=>{setGoToFarm(true);}}>                      
             </button>
             <ScaleDown img={'/images/heart.svg'} />
-            육종가  
             {checkNumOfAnimal(mating)}
             {goToFarm && <ScaleUp img={'/images/heart.svg'} redirectTo={'..'}/>}
         </div>

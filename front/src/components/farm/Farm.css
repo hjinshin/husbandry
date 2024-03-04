@@ -60,6 +60,9 @@
     &.exist {
         color: green;
     }
+    &.lack {
+        color: darkgoldenrod;
+    }
 }
 .land-list-nav-btn:hover {
     cursor: pointer;

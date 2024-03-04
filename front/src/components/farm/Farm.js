@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate } from '../../slices/farmSlice';
 import { optionModal, buyModal, matingModal, sellModal, bringModal } from '../../slices/settingSlice';
+import { subMoney } from '../../slices/userSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
 import {landlist} from '../../pages/land/landList'
 import ModalManager from '../modal/ModalManager';
 import './Farm.css';
-import { subMoney } from '../../slices/userSlice';
 
 function Farm(props) {
     const navigate = useNavigate();
@@ -153,7 +153,8 @@ function Farm(props) {
                     {row.map((num) => (
                         (owned_land < num) ?
                            (<button className='land-list-nav-btn' id={num} key={num}><img src={'/images/lock.png'} style={{width:"15px"}} alt='lock'/></button>)
-                        :  (<button className={`land-list-nav-btn ${landInfo[num].info === null ? "exist":""}`} id={num}  key={num}
+                        :  (<button className={`land-list-nav-btn ${landInfo[num].info === null ? "": 
+                            ( (landInfo[num].info?.health !== 5 || landInfo[num].info?.enjoy !== 5 || landInfo[num].info?.feed !== 5 || landInfo[num].info?.clean !== 5) ? "lack" : "exist" )}`} id={num}  key={num}
                                     onClick={(e)=>dispatch(teleport(parseInt(e.currentTarget.id)))}>
                                         {landInfo[num].info?.state === "mating" ? <img src='/images/heart.svg' alt='mating' style={{width:"18px"}}/>:num}
                             </button>)
