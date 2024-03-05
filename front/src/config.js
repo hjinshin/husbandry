@@ -1,3 +1,3 @@
-const SERVER_SEARCH_URL = 'http://localhost:8080';
+const SERVER_URL = 'http://localhost:8080';
 
-export { SERVER_SEARCH_URL };
+export { SERVER_URL };

@@ -126,19 +126,19 @@ function ModalManager(props) {
             <button className="modalCloseBtn" onClick={()=>dispatch(optionModal())}>✖</button>
             <p style={{fontSize:"30px"}}>옵션</p>
             <div>
-                <button className="modalDefaultBtn" onClick={()=>dispatch(bgmRaise())}
+                <button className="modalDefaultBtn" onClick={()=>dispatch(bgmLower())}
                     style={{ top:"100px", left:"30px", width:"30px", height:"30px", fontSize:"20px", backgroundColor:"lightgreen"}}>&lt;</button>
                 <p style={{position:"absolute", top:"106px", left:"75px", fontSize:"18px", fontWeight:"bold"}}>배경음</p>
                 <p style={{position:"absolute", top:"106px", right:"75px", fontSize:"18px", fontWeight:"bold"}}>{bgm}%</p>
-                <button className="modalDefaultBtn" onClick={()=>dispatch(bgmLower())}
+                <button className="modalDefaultBtn" onClick={()=>dispatch(bgmRaise())}
                     style={{ top:"100px", right:"30px", width:"30px", height:"30px", fontSize:"20px", backgroundColor:"lightgreen"}}>&gt;</button>                    
             </div>
             <div>
-                <button className="modalDefaultBtn" onClick={()=>dispatch(sfxRaise())}
+                <button className="modalDefaultBtn" onClick={()=>dispatch(sfxLower())}
                     style={{ top:"160px", left:"30px", width:"30px", height:"30px", fontSize:"20px", backgroundColor:"lightgreen"}}>&lt;</button>
                 <p style={{position:"absolute", top:"166px", left:"75px", fontSize:"18px", fontWeight:"bold"}}>효과음</p>
                 <p style={{position:"absolute", top:"166px", right:"75px", fontSize:"18px", fontWeight:"bold"}}>{sfx}%</p>
-                <button className="modalDefaultBtn" onClick={()=>dispatch(sfxLower())}
+                <button className="modalDefaultBtn" onClick={()=>dispatch(sfxRaise())}
                     style={{ top:"160px", right:"30px", width:"30px", height:"30px", fontSize:"20px", backgroundColor:"lightgreen"}}>&gt;</button>                     
             </div>
             <button className="modalDefaultBtn" onClick={()=>{dispatch(optionModal())}}

@@ -30,24 +30,4 @@ public class TestController {
         System.out.println("쿠키가 없습니다.");
         return false;
     }
-
-    @PostMapping("/api/nickname")
-    public Boolean createNickName(@RequestParam String nickname) {
-        System.out.println("nickname: " + nickname);
-        UUID uuid4 = UUID.randomUUID();
-        return true;
-    }
-
-    @PostMapping("/api/passwd")
-    public Boolean postPassWd(@RequestParam String passwd) {
-        System.out.println("passwd: " + passwd);
-        return true;
-    }
-
-    @PostMapping("/api/login")
-    public ResponseEntity<CookieDTO> postLogin(@RequestBody LoginDTO loginDTO) {
-        System.out.println("id: " + loginDTO.getId() + "\npw: " + loginDTO.getPw());
-        UUID uuid4 = UUID.randomUUID();
-        return ResponseEntity.ok().body(new CookieDTO(true, uuid4));
-    }
 }

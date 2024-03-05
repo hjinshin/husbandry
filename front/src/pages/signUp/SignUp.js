@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postNickNm, postpassWd } from '../../APIs/postApi';
+import { postID, postpassWd } from '../../APIs/postApi';
 import FadeIn from '../../components/animation/FadeIn';
 import ScaleUp from '../../components/animation/ScaleUp';
 import './SignUp.css';
 
 function SignUp(props) {
     const navigate = useNavigate();
-    const [nickNm, setNickNm] = useState('');
+    const [id, setId] = useState('');
     const [passwd, setPasswd] = useState('');
     const [valid, setValid] = useState(false);
     const [passwdvalid, setPasswdValid] = useState(false);
 
     async function handleNickNameSubmit(e) {
         e.preventDefault();
-        const res = await postNickNm(nickNm);
+        const res = await postID(id);
         checkNiickNmAvail(res.data);
         
     }
     async function handlePassWdSubmit(e) {
         e.preventDefault();
-        const res = await postpassWd(nickNm);
+        // console.log(id, passwd);
+        const res = await postpassWd(id, passwd);
         if(res.data) {
             setValid(true);
         }
@@ -30,7 +31,7 @@ function SignUp(props) {
         const value = e.target.value;
         const filteredValue = value.replace(/[^0-9a-zA-Zㄱ-힣]/g, '');
 
-        setNickNm(filteredValue);
+        setId(filteredValue);
     }
     function handlePassWdChange(e) {
         setPasswd(e.target.value);
@@ -74,7 +75,7 @@ function SignUp(props) {
                             placeholder=''
                             spellCheck='false'
                             maxLength='20'
-                            value={nickNm}
+                            value={id}
                             onChange={handleInputChange}
                         />  
                     </form>                 

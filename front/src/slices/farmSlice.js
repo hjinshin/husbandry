@@ -1,9 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { animalValueObjMap } from '../data/animalValueObjMap';
+import { getFarmInfo } from '../APIs/getApi';
+
+const fetchUpdateFarm = createAsyncThunk(
+    'farm/fetchUpdateFarm',
+    async() => {
+        const res = await getFarmInfo();
+        console.log(res);
+        return res;
+    }
+)
 
 const farmSlice = createSlice({
     name: 'farm',
     initialState: {
+        status: 'idle',
+        currentRequestId: undefined,
+        error: null,
         land: 0,
         total_land: 20,
         owned_land: 3,
@@ -109,10 +122,37 @@ const farmSlice = createSlice({
         landUpdate: (state, action) => {
             state.owned_land += 1;
         },
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchUpdateFarm.pending, (state,action)=>{
+            if(state.status === 'idle') {
+                state.status = 'pending';
+                state.currentRequestId = action.meta.requestId
+            }
+        })
+        builder.addCase(fetchUpdateFarm.fulfilled, (state,action)=>{
+            const { requestId } = action.meta;
+            if(state.status === 'pending' && state.currentRequestId === requestId) {
+                state.status = 'idle';
+                state.owned_land = action.payload.owned_land;
+                state.mating = action.payload.mating;
+                // state.landInfo = action.payload.landInfo;
+                state.currentRequestId = undefined;
+            }
+        })
+        builder.addCase(fetchUpdateFarm.rejected, (state,action)=>{
+            const { requestId } = action.meta;
+            if(state.status === 'pending' && state.currentRequestId === requestId) {
+                state.status = 'idle';
+                state.error = action.error;
+                state.currentRequestId = undefined;
+            }
+        })
+      }
 });
 
 export default farmSlice;
+export { fetchUpdateFarm };
 export const {right, left, teleport, landUpdate} = farmSlice.actions;
 export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
 export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal, cancelMatingAnimal} = farmSlice.actions;

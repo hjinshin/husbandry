@@ -1,13 +1,13 @@
 import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate } from '../../slices/farmSlice';
+import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate, fetchUpdateFarm } from '../../slices/farmSlice';
 import { optionModal, buyModal, matingModal, sellModal, bringModal } from '../../slices/settingSlice';
-import { subMoney } from '../../slices/userSlice';
+import { subMoney, fetchUpdateUser } from '../../slices/userSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
-import {landlist} from '../../pages/land/landList'
+import {landlist} from '../../pages/land/landList';
 import ModalManager from '../modal/ModalManager';
 import './Farm.css';
 
@@ -26,11 +26,15 @@ function Farm(props) {
         props.setPrevLoc(false);
     }, [props]);
     useEffect(()=>{
+        dispatch(fetchUpdateUser());
+        dispatch(fetchUpdateFarm());
+    }, [dispatch]);
+    useEffect(()=>{
         if(dest === "sleep") {
             navigate("./sleep");
         }
     }, [dest, navigate]);
-    
+ 
     function goTo(dur, des) {
         props.setDuration(dur);
         setDest(des);
@@ -83,7 +87,7 @@ function Farm(props) {
 
                 </>
             )
-        } else if(landInfo[land]?.value === null) {
+        } else if(landInfo[land]?.info === null) {
             return (
                 <>
                 <button className='buy-button' onClick={()=>dispatch(buyModal())}>구입</button> 
