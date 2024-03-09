@@ -8,6 +8,5 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class CookieDTO {
-    private Boolean success;
     private UUID cookie;
 }

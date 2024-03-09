@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { animalValueObjMap } from '../data/animalValueObjMap';
 import { getFarmInfo } from '../APIs/getApi';
-import { updateBuyLand, updateFarmThruBuy, updateFarmThruSell } from '../APIs/putApi';
+import { updateAnimCond, updateBuyLand, updateFarmThruBuy, updateFarmThruSell } from '../APIs/putApi';
 
 const fetchUpdateFarm = createAsyncThunk(
     'farm/fetchUpdateFarm',
@@ -29,8 +29,16 @@ const fetchSellAnimal = createAsyncThunk(
 )
 const fetchBuyLand = createAsyncThunk(
     'farm/fetchBuyLand',
-    async(land) => {
+    async() => {
         const res = await updateBuyLand();
+        // console.log(res);
+        return res;
+    }
+)
+const fetchAnimCond = createAsyncThunk(
+    'farm/fetchAnimCond',
+    async({order, land, nickName}) => {
+        const res = await updateAnimCond(order, land, nickName);
         // console.log(res);
         return res;
     }
@@ -86,19 +94,10 @@ const farmSlice = createSlice({
             state.landInfo[index].img[11] = animalValue.w_wing;
         },
         emptyLandByNum: (state, action)=> {
-            if(action.payload === 1) {
-                state.landInfo[1].value = null;
-                state.landInfo[1].info = null;
-                state.landInfo[1].img = [];
-            } else if(action.payload === 2) {
-                state.landInfo[2].value = null;
-                state.landInfo[2].info = null;
-                state.landInfo[2].img = [];
-            } else if(action.payload === 3) {
-                state.landInfo[3].value = null;    
-                state.landInfo[3].info = null;
-                state.landInfo[3].img = [];
-            }    
+            state.landInfo[action.payload].value = null;    
+            state.landInfo[action.payload].info = null;
+            state.landInfo[action.payload].img = [];
+            
         },
         playWithAnimal: (state, action)=> {
             if(state.landInfo[action.payload].info.enjoy < 5)
@@ -129,109 +128,96 @@ const farmSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUpdateFarm.pending, (state,action)=>{
-            if(state.status === 'idle') {
-                state.status = 'pending';
-                state.currentRequestId = action.meta.requestId;
-            }
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
         });
         builder.addCase(fetchUpdateFarm.fulfilled, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.owned_land = action.payload.owned_land;
-                state.mating = action.payload.mating;
-                // state.landInfo = action.payload.landInfo;
-                state.currentRequestId = undefined;
+            state.status = 'idle';
+            state.currentRequestId = undefined;
+            if(action.payload.success) {
+                state.owned_land = action.payload.object.owned_land;
+                state.mating = action.payload.object.mating;
+                // state.landInfo = action.payload.object.landInfo;
             }
         });
         builder.addCase(fetchUpdateFarm.rejected, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.error = action.error;
-                state.currentRequestId = undefined;
-            }
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
         });
 
 
         builder.addCase(fetchBuyAnimal.pending, (state,action)=>{
-            if(state.status === 'idle') {
-                state.status = 'pending';
-                state.currentRequestId = action.meta.requestId;
-            }
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
         });
         builder.addCase(fetchBuyAnimal.fulfilled, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.currentRequestId = undefined;
+            state.status = 'idle';
+            state.currentRequestId = undefined;
 
-                // 구매에 따른 변경된 landInfo를 업데이트
-            }
+            // 구매에 따른 변경된 landInfo를 업데이트
         });
         builder.addCase(fetchBuyAnimal.rejected, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.error = action.error;
-                state.currentRequestId = undefined;
-            }
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
         });
         
 
         builder.addCase(fetchSellAnimal.pending, (state,action)=>{
-            if(state.status === 'idle') {
-                state.status = 'pending';
-                state.currentRequestId = action.meta.requestId;
-            }
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
         });
         builder.addCase(fetchSellAnimal.fulfilled, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.currentRequestId = undefined;
+            state.status = 'idle';
+            state.currentRequestId = undefined;
 
-                // 판매에 따른 변경된 landInfo를 업데이트
-            }
+            // 판매에 따른 변경된 landInfo를 업데이트
         });
         builder.addCase(fetchSellAnimal.rejected, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.error = action.error;
-                state.currentRequestId = undefined;
-            }
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
         });
                 
 
         builder.addCase(fetchBuyLand.pending, (state,action)=>{
-            if(state.status === 'idle') {
-                state.status = 'pending';
-                state.currentRequestId = action.meta.requestId;
-            }
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
         });
         builder.addCase(fetchBuyLand.fulfilled, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.currentRequestId = undefined;
-                console.log(action.payload);
-                state.owned_land = action.payload;
+            state.status = 'idle';
+            state.currentRequestId = undefined;
+            if(action.payload.success) {
+                state.owned_land = action.payload.object;
             }
         });
         builder.addCase(fetchBuyLand.rejected, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.error = action.error;
-                state.currentRequestId = undefined;
-            }
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
+        });
+                        
+
+        builder.addCase(fetchAnimCond.pending, (state,action)=>{
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
+        });
+        builder.addCase(fetchAnimCond.fulfilled, (state,action)=>{
+            state.status = 'idle';
+            state.currentRequestId = undefined;
+            // 동물 컨디션 업데이트
+        });
+        builder.addCase(fetchAnimCond.rejected, (state,action)=>{
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
         });
       }
 });
 
 export default farmSlice;
-export { fetchUpdateFarm, fetchBuyAnimal, fetchSellAnimal, fetchBuyLand };
+export { fetchUpdateFarm, fetchBuyAnimal, fetchSellAnimal, fetchBuyLand, fetchAnimCond };
 export const {landUpdate} = farmSlice.actions;
 export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
-export const {playWithAnimal, feedAnimal, cleanAnimal, matingAnimal, cancelMatingAnimal} = farmSlice.actions;
+export const {/*playWithAnimal, feedAnimal, cleanAnimal,*/ matingAnimal, cancelMatingAnimal} = farmSlice.actions;

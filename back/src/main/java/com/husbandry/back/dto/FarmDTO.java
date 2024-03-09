@@ -8,7 +8,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class FarmDTO {
-    private Boolean success;
     private Integer owned_land;
     private int[] mating;
     private LandInfo landInfo;

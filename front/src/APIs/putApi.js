@@ -46,3 +46,21 @@ export const updateBuyLand = async() => {
         throw error;
     }
 }
+
+export const updateAnimCond = async(order, land, nickName) => {
+    try {
+        const res = await axios({
+            method:"PUT",
+            url: SERVER_URL + '/api/condition',
+            params:{
+                "order": order,
+                "land": land,
+                "nickName": nickName
+            }
+        });
+        // console.log(res.data);
+        return res.data;
+    } catch(error) {
+        throw error;
+    }
+}

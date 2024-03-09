@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { optionModal, buyModal, matingModal, sellModal, bringModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal } from '../../slices/settingSlice';
 import { bgmRaise, bgmLower, sfxRaise, sfxLower } from '../../slices/settingSlice';
 import { updateAnimalValue, updateAnimalInfo, emptyLandByNum, matingAnimal, cancelMatingAnimal, fetchBuyAnimal, fetchSellAnimal } from '../../slices/farmSlice';
-import { addMoney, subMoney, getAnimal, clearBaby, fetchUpdateBalance } from '../../slices/userSlice';
+import { addMoney, subMoney, getAnimal, clearBaby, fetchUpdateBalance, fetchGetDraw } from '../../slices/userSlice';
 import { animalValueObjMap } from '../../data/animalValueObjMap';
 import { animalImageList } from '../../data/animalImgObjMap';
 import './Modal.css';
@@ -15,8 +15,7 @@ function ModalManager(props) {
     const { tamer_normal_modal, tamer_unnormal_modal, tamer_rare_modal, tamer_legendary_modal, tamer_draw_result_modal, tamer_fillout_modal, tamer_poverty_modal } = useSelector(state=>{return state.setting});
     const { mating, landInfo } = useSelector(state=>{return state.farm});
     const { land } = useSelector(state=>{return state.setting});
-    const { money, owned_animal, baby, did_breed } = useSelector(state=>{return state.user});
-    const [drawResultNum, SetDrawResultNum] = useState(0);
+    const { money, owned_animal, baby, did_breed, draw } = useSelector(state=>{return state.user});
 
     function buy(e) {
         const num = e.target.id;
@@ -77,12 +76,9 @@ function ModalManager(props) {
         }
         // 서버에 동물 뽑기 요청
         const res = true;
-        const res_num = 1;
-        SetDrawResultNum(res_num);
-
         if(res) {
-            dispatch(subMoney(amount));
-            dispatch(getAnimal(res_num));
+            dispatch(fetchGetDraw(option));
+            dispatch(fetchUpdateBalance());
             return dispatch(tamerDrawResultModal());
         } else {
             return dispatch(tamerFillOutModal());
@@ -246,8 +242,8 @@ function ModalManager(props) {
     const tamerDrawResultTemplate = (
         <Modal style={{width:"400px", height:"310px"}}>
             <div style={{position:"absolute", width:"100px", height:"115px", left:"150px",justifyContent:"center", alignItems:"center"}}>
-                            <img src={animalImageList[drawResultNum]} alt='animal' width={80} height={90}/>
-                            <p style={{margin:"5px", fontSize:"23px", fontWeight:"bold"}}>{animalValueObjMap[animal_list[drawResultNum]].korean_name}</p>
+                            <img src={animalImageList[draw]} alt='animal' width={80} height={90}/>
+                            <p style={{margin:"5px", fontSize:"23px", fontWeight:"bold"}}>{animalValueObjMap[animal_list[draw]].korean_name}</p>
                         </div>
             <p style={{width:"300px",right:"50px",top:"160px",position:"absolute", fontSize:"25px"}}>이제 목장에서 이 동물을 구입할 수 있습니다.</p>
             <button className="modalDefaultBtn" onClick={()=>{dispatch(tamerDrawResultModal()); }}

@@ -9,7 +9,7 @@ export const postID = async(nicnNm) => {
             params: {  "nickname": nicnNm  },
         });
         //console.log(res.data);
-        return res;
+        return res.data;
     } catch (error) {
         throw error;
     }
@@ -26,7 +26,7 @@ export const postpassWd = async(id, passWd) => {
             },
         });
         //console.log(res.data);
-        return res;
+        return res.data;
     } catch (error) {
         throw error;
     }
@@ -42,7 +42,7 @@ export const postLogin = async(id, pw) => {
                 "pw": pw
             }
         });
-        return res;
+        return res.data;
     } catch (error) {
         throw error;
     }

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getBalance, getUserInfo } from '../APIs/getApi';
+import { getBalance, getDraw, getUserInfo } from '../APIs/getApi';
 
 const fetchUpdateUser = createAsyncThunk(
     'user/fetchUpdateUser',
@@ -12,6 +12,13 @@ const fetchUpdateBalance = createAsyncThunk(
     'user/fetchUpdateBalance',
     async() => {
         const res = await getBalance();
+        return res;
+    }
+)
+const fetchGetDraw = createAsyncThunk(
+    'user/fetchGetDraw',
+    async(order) => {
+        const res = await getDraw(order);
         return res;
     }
 )
@@ -28,6 +35,7 @@ const userSlice = createSlice({
                     //h_b_leg, w_b_leg, h_wing, w_wing, r, price, nickname
         owned_animal:[true, false,],
         did_breed: false,
+        draw: 0,
     },
     reducers: {
         addMoney: (state, action)=> {
@@ -61,56 +69,66 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUpdateUser.pending, (state,action)=>{
-            if(state.status === 'idle') {
-                state.status = 'pending';
-                state.currentRequestId = action.meta.requestId;
-            }
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
+            
         });
         builder.addCase(fetchUpdateUser.fulfilled, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.money = action.payload.money;
-                state.day = action.payload.day;
-                state.owned_animal = action.payload.owned_animal;
-                state.baby = action.payload.baby;
-                state.currentRequestId = undefined;
+            state.status = 'idle';
+            state.currentRequestId = undefined;                    
+            if(action.payload.success) {
+                state.money = action.payload.object.money;
+                state.day = action.payload.object.day;
+                state.owned_animal = action.payload.object.owned_animal;
+                state.baby = action.payload.object.baby;
             }
+
+            
         });
         builder.addCase(fetchUpdateUser.rejected, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.error = action.error;
-                state.currentRequestId = undefined;
-            }
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
         });
 
 
         builder.addCase(fetchUpdateBalance.pending, (state,action)=>{
-            if(state.status === 'idle') {
-                state.status = 'pending';
-                state.currentRequestId = action.meta.requestId;
-            }
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
         });
         builder.addCase(fetchUpdateBalance.fulfilled, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.currentRequestId = undefined;
-                state.money = action.payload;
+            state.status = 'idle';
+            state.currentRequestId = undefined;
+            if(action.payload.success) {
+                state.money = action.payload.object;
             }
         });
         builder.addCase(fetchUpdateBalance.rejected, (state,action)=>{
-            const { requestId } = action.meta;
-            if(state.status === 'pending' && state.currentRequestId === requestId) {
-                state.status = 'idle';
-                state.error = action.error;
-                state.currentRequestId = undefined;
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
+        });
+        
+
+        builder.addCase(fetchGetDraw.pending, (state,action)=>{
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
+        });
+        builder.addCase(fetchGetDraw.fulfilled, (state,action)=>{
+            state.status = 'idle';
+            state.currentRequestId = undefined;
+            if(action.payload.success) {
+                state.draw = action.payload.object;
+                state.owned_animal[action.payload.object] = true;                    
             }
+        });
+        builder.addCase(fetchGetDraw.rejected, (state,action)=>{
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
         });
       }
 });
 export default userSlice;
-export { fetchUpdateUser, fetchUpdateBalance };
+export { fetchUpdateUser, fetchUpdateBalance, fetchGetDraw };
 export const { addMoney, subMoney, getAnimal, nextDay, clearBaby, breeding, clearBreeding, updateUserSlice } = userSlice.actions;

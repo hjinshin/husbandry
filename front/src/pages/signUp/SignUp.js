@@ -15,15 +15,16 @@ function SignUp(props) {
     async function handleNickNameSubmit(e) {
         e.preventDefault();
         const res = await postID(id);
-        checkNiickNmAvail(res.data);
+        checkNiickNmAvail(res.success);
         
     }
     async function handlePassWdSubmit(e) {
         e.preventDefault();
         // console.log(id, passwd);
         const res = await postpassWd(id, passwd);
-        if(res.data) {
+        if(res.success) {
             setValid(true);
+            // 쿠키 저장
         }
     }
 

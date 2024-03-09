@@ -20,8 +20,9 @@ function LogIn(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         const res = await postLogin(id, pw);
-        if(res.data.success) {
+        if(res.success) {
             setValid(true);
+            // 쿠키 저장
         } else {
             alert("잘못된 사용자명 및 비밀번호입니다.");
         }

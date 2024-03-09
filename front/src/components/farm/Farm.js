@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate, fetchUpdateFarm, fetchBuyLand } from '../../slices/farmSlice';
+import { updateNickName, landUpdate, fetchUpdateFarm, fetchBuyLand, fetchAnimCond } from '../../slices/farmSlice';
 import { right, left, teleport, optionModal, buyModal, matingModal, sellModal, bringModal } from '../../slices/settingSlice';
 import { subMoney, fetchUpdateUser, fetchUpdateBalance } from '../../slices/userSlice';
 import ScaleDown from '../animation/ScaleDown';
@@ -104,11 +104,12 @@ function Farm(props) {
             return (
                 <>
                 <input className='input-name' type='text' value={landInfo[land]?.info?.nickname} 
-                        onChange={(e)=>dispatch(updateNickName({index:land, nickname:e.target.value}))} />
+                        onChange={(e)=>dispatch(updateNickName({index:land, nickname:e.target.value}))} 
+                        onBlur={(e)=>dispatch(fetchAnimCond({order:4, land:land, nickName:e.target.value}))}/>
                 <img src={'/images/pen.png'} alt='pen' style={{position:"absolute",height:"15px", right:"50px", top:"104px"}}/>
-                <button className='farmDefaultBtn' style={{left:"50px"}} onClick={()=>dispatch(playWithAnimal(land))}>놀이</button>
-                <button className='farmDefaultBtn' style={{left:"200px"}} onClick={()=>dispatch(feedAnimal(land))}>먹이</button>
-                <button className='farmDefaultBtn' style={{left:"350px"}} onClick={()=>dispatch(cleanAnimal(land))}>청소</button>
+                <button className='farmDefaultBtn' style={{left:"50px"}} onClick={()=>dispatch(fetchAnimCond({order:1, land:land, nickName:null}))}>놀이</button>
+                <button className='farmDefaultBtn' style={{left:"200px"}} onClick={()=>dispatch(fetchAnimCond({order:2, land:land, nickName:null}))}>먹이</button>
+                <button className='farmDefaultBtn' style={{left:"350px"}} onClick={()=>dispatch(fetchAnimCond({order:3, land:land, nickName:null}))}>청소</button>
                 <button className='farmDefaultBtn' style={{right:"350px"}} onClick={()=>dispatch(sellModal())}>판매</button>
                 <button className='farmDefaultBtn' style={{right:"200px"}} onClick={()=>dispatch(matingModal())}>교배</button>
                 <button className='farmDefaultBtn' style={{right:"50px"}}>정보</button>
