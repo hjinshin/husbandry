@@ -1,6 +1,5 @@
 import React from 'react';
 import { AnimatePresence, motion } from "framer-motion";
-import { useSelector } from 'react-redux';
 
 const variants = {
     initial: (direction) => ({
@@ -15,16 +14,13 @@ const variants = {
 };
 
 function Slide(props) {
-    const {land, direction} = useSelector(state=>{
-        return state.farm;
-    })
     const components = props.components;
     return (
         <div>
-            <AnimatePresence initial={false} custom={direction}>
+            <AnimatePresence initial={false} custom={props.direction}>
                 <motion.div
-                    key={land}
-                    custom={direction}
+                    key={props.land}
+                    custom={props.direction}
                     variants={variants}
                     initial="initial"
                     animate="animate"
@@ -33,7 +29,7 @@ function Slide(props) {
                         x: { stiffness: 0, damping: 30 },
                     }}
                     >
-                    {components[land]}
+                    {components[props.land]}
                 </motion.div>
             </AnimatePresence>            
         </div>

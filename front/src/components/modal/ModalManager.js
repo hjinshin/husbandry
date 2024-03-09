@@ -3,8 +3,8 @@ import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { optionModal, buyModal, matingModal, sellModal, bringModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal } from '../../slices/settingSlice';
 import { bgmRaise, bgmLower, sfxRaise, sfxLower } from '../../slices/settingSlice';
-import { updateAnimalValue, updateAnimalInfo, emptyLandByNum, matingAnimal, cancelMatingAnimal } from '../../slices/farmSlice';
-import { addMoney, subMoney, getAnimal, clearBaby } from '../../slices/userSlice';
+import { updateAnimalValue, updateAnimalInfo, emptyLandByNum, matingAnimal, cancelMatingAnimal, fetchBuyAnimal, fetchSellAnimal } from '../../slices/farmSlice';
+import { addMoney, subMoney, getAnimal, clearBaby, fetchUpdateBalance } from '../../slices/userSlice';
 import { animalValueObjMap } from '../../data/animalValueObjMap';
 import { animalImageList } from '../../data/animalImgObjMap';
 import './Modal.css';
@@ -13,7 +13,8 @@ function ModalManager(props) {
     const dispatch = useDispatch();
     const { animal_list, bgm, sfx, option_modal, buy_modal, mating_modal, sell_modal, bring_modal } = useSelector(state=>{return state.setting});
     const { tamer_normal_modal, tamer_unnormal_modal, tamer_rare_modal, tamer_legendary_modal, tamer_draw_result_modal, tamer_fillout_modal, tamer_poverty_modal } = useSelector(state=>{return state.setting});
-    const { land, mating, landInfo } = useSelector(state=>{return state.farm});
+    const { mating, landInfo } = useSelector(state=>{return state.farm});
+    const { land } = useSelector(state=>{return state.setting});
     const { money, owned_animal, baby, did_breed } = useSelector(state=>{return state.user});
     const [drawResultNum, SetDrawResultNum] = useState(0);
 
@@ -25,15 +26,26 @@ function ModalManager(props) {
         const temp_info = {price:animalValueObjMap[ani].price, nickname:name_list[num], state: "exist", age:5, health:5, enjoy:5, feed:5, clean:5};
 
         if(money >= animalValueObjMap[ani].price) {
+            // console.log("동물 구매");
+
+            // ----------서버의 역할로 변경-------------
             dispatch(updateAnimalValue({animalValue:temp_profile,index:land}));
             dispatch(updateAnimalInfo({animalInfo:temp_info,index:land}));
             dispatch(subMoney(animalValueObjMap[ani].price));
+            // ----------------------------------------
+            dispatch(fetchBuyAnimal({num, land}));
+            dispatch(fetchUpdateBalance());
             dispatch(buyModal());
         }
     }
     function sell() {
+        // console.log("동물 판매");
+        // ----------서버의 역할로 변경-------------
         dispatch(addMoney(landInfo[land].info.price));
         dispatch(emptyLandByNum(land));    
+        // ----------------------------------------
+        dispatch(fetchSellAnimal(land));
+        dispatch(fetchUpdateBalance());
         dispatch(sellModal());    
     }
     function bringFromBreeder(b) {

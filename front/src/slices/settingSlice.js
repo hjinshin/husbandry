@@ -4,6 +4,9 @@ import { createSlice } from '@reduxjs/toolkit'
 const settingSlice = createSlice({
     name: 'setting',
     initialState: {
+        land: 0,
+        total_land: 20,
+        direction: 1,   
         bgm: 50,
         sfx: 50,
         option_modal: false,
@@ -21,6 +24,24 @@ const settingSlice = createSlice({
         animal_list:["worm", "chicken",],
     },
     reducers: {
+        right: (state, action)=> {
+            if(state.land < state.total_land) {
+                state.land = state.land + 1;
+                state.direction = 1;
+            } 
+        },
+        left: (state, action)=> {
+            if(state.land > 0) {
+                state.land = state.land - 1;
+                state.direction = -1;
+            }
+        },
+        teleport: (state, action)=> {
+            if(state.land <= action.payload)
+                state.direction = 1;
+            else state.direction = -1;
+            state.land = action.payload;
+        },
         bgmRaise: (state, action)=> {
             if(state.bgm < 100)     state.bgm += 10;
         },
@@ -72,5 +93,6 @@ const settingSlice = createSlice({
 });
 
 export default settingSlice;
+export const {right, left, teleport } = settingSlice.actions;
 export const {bgmRaise, bgmLower, sfxRaise, sfxLower} = settingSlice.actions;
 export const {optionModal, buyModal, matingModal, sellModal, bringModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal} = settingSlice.actions;

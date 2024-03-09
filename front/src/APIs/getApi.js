@@ -38,3 +38,16 @@ export const getFarmInfo = async() => {
         throw error;
     }
 }
+
+export const getBalance = async() => {
+    try {
+        const res = await axios({
+            method:"GET",
+            url: SERVER_URL + '/api/balance'
+        });
+        // console.log(res);
+        return res.data;
+    } catch(error) {
+        throw error;
+    }
+}

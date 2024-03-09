@@ -1,9 +1,9 @@
 import React , {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { right, left, teleport, playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate, fetchUpdateFarm } from '../../slices/farmSlice';
-import { optionModal, buyModal, matingModal, sellModal, bringModal } from '../../slices/settingSlice';
-import { subMoney, fetchUpdateUser } from '../../slices/userSlice';
+import { playWithAnimal, feedAnimal, cleanAnimal, updateNickName, landUpdate, fetchUpdateFarm, fetchBuyLand } from '../../slices/farmSlice';
+import { right, left, teleport, optionModal, buyModal, matingModal, sellModal, bringModal } from '../../slices/settingSlice';
+import { subMoney, fetchUpdateUser, fetchUpdateBalance } from '../../slices/userSlice';
 import ScaleDown from '../animation/ScaleDown';
 import ScaleUp from '../animation/ScaleUp';
 import Slide from '../animation/Slide';
@@ -16,8 +16,9 @@ function Farm(props) {
     const dispatch = useDispatch();
     const [dest, setDest] = useState("farm");
     const [valid, setValid] = useState(false);
-    const {land, total_land, landInfo, owned_land } = useSelector(state=>{return state.farm});
+    const {landInfo, owned_land } = useSelector(state=>{return state.farm});
     const { money } = useSelector(state=>{return state.user}); 
+    const { land, total_land, direction } = useSelector(state=>{return state.setting}); 
 
     useEffect(()=>{
         if(props.prevLoc) {
@@ -39,10 +40,15 @@ function Farm(props) {
         props.setDuration(dur);
         setDest(des);
     }    
-    function buy(e) {
+    function landBuy(e) {
         if(money >= (land - 3)*1000 && land-1 === owned_land) {
+            // ---------- 서버의 역할로 변경 -------------------
             dispatch(subMoney((land - 3)*1000));
             dispatch(landUpdate());
+            // ------------------------------------------------
+
+            dispatch(fetchBuyLand());
+            dispatch(fetchUpdateBalance());
         }
     }
     function bring() {
@@ -82,7 +88,7 @@ function Farm(props) {
                 <div style={{position:"absolute", top:"250px", width:"1000px", marginLeft:"140px"}}>
                     <img src={'/images/lock.png'} style={{width:"100px", height:"100px", marginBottom:"20px"}} alt='lock'/>
                     <p style={{fontSize:"40px", fontWeight:"bold", marginBottom:"20px"}}>판매용</p>
-                    <button className={`land-buy-button ${((land-3)*1000 > money) ? `false`:`true`}`} onClick={buy}>₩{(land - 3)*1000}</button>                    
+                    <button className={`land-buy-button ${((land-3)*1000 > money) ? `false`:`true`}`} onClick={landBuy}>₩{(land - 3)*1000}</button>                    
                 </div>
 
                 </>
@@ -174,7 +180,7 @@ function Farm(props) {
         <div className='farm'>
             {scaleDwAnimation()}
             {scaleUpAnimation()}
-            <Slide components={landlist} />
+            <Slide components={landlist} land={land} direction={direction}/>
             <ModalManager />
             <div className='balance-land-container'>
                 <p className='balance'>₩{money}</p>

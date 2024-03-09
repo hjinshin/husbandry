@@ -1,10 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getUserInfo } from '../APIs/getApi';
+import { getBalance, getUserInfo } from '../APIs/getApi';
 
 const fetchUpdateUser = createAsyncThunk(
     'user/fetchUpdateUser',
     async() => {
         const res = await getUserInfo();
+        return res;
+    }
+)
+const fetchUpdateBalance = createAsyncThunk(
+    'user/fetchUpdateBalance',
+    async() => {
+        const res = await getBalance();
         return res;
     }
 )
@@ -56,9 +63,9 @@ const userSlice = createSlice({
         builder.addCase(fetchUpdateUser.pending, (state,action)=>{
             if(state.status === 'idle') {
                 state.status = 'pending';
-                state.currentRequestId = action.meta.requestId
+                state.currentRequestId = action.meta.requestId;
             }
-        })
+        });
         builder.addCase(fetchUpdateUser.fulfilled, (state,action)=>{
             const { requestId } = action.meta;
             if(state.status === 'pending' && state.currentRequestId === requestId) {
@@ -69,7 +76,7 @@ const userSlice = createSlice({
                 state.baby = action.payload.baby;
                 state.currentRequestId = undefined;
             }
-        })
+        });
         builder.addCase(fetchUpdateUser.rejected, (state,action)=>{
             const { requestId } = action.meta;
             if(state.status === 'pending' && state.currentRequestId === requestId) {
@@ -77,9 +84,33 @@ const userSlice = createSlice({
                 state.error = action.error;
                 state.currentRequestId = undefined;
             }
-        })
+        });
+
+
+        builder.addCase(fetchUpdateBalance.pending, (state,action)=>{
+            if(state.status === 'idle') {
+                state.status = 'pending';
+                state.currentRequestId = action.meta.requestId;
+            }
+        });
+        builder.addCase(fetchUpdateBalance.fulfilled, (state,action)=>{
+            const { requestId } = action.meta;
+            if(state.status === 'pending' && state.currentRequestId === requestId) {
+                state.status = 'idle';
+                state.currentRequestId = undefined;
+                state.money = action.payload;
+            }
+        });
+        builder.addCase(fetchUpdateBalance.rejected, (state,action)=>{
+            const { requestId } = action.meta;
+            if(state.status === 'pending' && state.currentRequestId === requestId) {
+                state.status = 'idle';
+                state.error = action.error;
+                state.currentRequestId = undefined;
+            }
+        });
       }
 });
 export default userSlice;
-export { fetchUpdateUser };
+export { fetchUpdateUser, fetchUpdateBalance };
 export const { addMoney, subMoney, getAnimal, nextDay, clearBaby, breeding, clearBreeding, updateUserSlice } = userSlice.actions;

@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class FarmDTO {
+    private Boolean success;
     private Integer owned_land;
     private int[] mating;
     private LandInfo landInfo;
@@ -16,12 +17,15 @@ public class FarmDTO {
         private List<Profile> profile;
     }
     @Data
+    @AllArgsConstructor
     public static class Profile {
         private Info info;
         private Value value;
-        private List<String> img;
+        private String[] img;
     }
-    @Data static class Info {
+    @Data
+    @AllArgsConstructor
+    static class Info {
         private Integer price;
         private String nickname;
         private String State;
