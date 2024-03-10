@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getBalance, getDraw, getUserInfo } from '../APIs/getApi';
+import { getBalance, getDraw, getNextDay, getUserInfo } from '../APIs/getApi';
 
 const fetchUpdateUser = createAsyncThunk(
     'user/fetchUpdateUser',
@@ -22,6 +22,13 @@ const fetchGetDraw = createAsyncThunk(
         return res;
     }
 )
+const fetchGetNextDay = createAsyncThunk(
+    'user/fetchGetNextDay',
+    async() => {
+        const res = await getNextDay();
+        return res;
+    }
+)
 
 const userSlice = createSlice({
     name:'user',
@@ -34,7 +41,6 @@ const userSlice = createSlice({
         baby: null, // w, height, width, color, h_head, w_head, h_body, w_body, h_tail, w_tail, h_f_leg, w_f_leg, 
                     //h_b_leg, w_b_leg, h_wing, w_wing, r, price, nickname
         owned_animal:[true, false,],
-        did_breed: false,
         draw: 0,
     },
     reducers: {
@@ -44,20 +50,11 @@ const userSlice = createSlice({
         subMoney: (state, action)=> {
             state.money -= action.payload;
         },
-        getAnimal: (state, action)=> {
-            state.owned_animal[action.payload] = true;
-        },
         nextDay: (state, action)=> {
             state.day += 1;
         },
         clearBaby:(state, action)=> {
             state.baby = null;
-        },
-        breeding: (state, action) => {
-            state.did_breed = true;
-        },
-        clearBreeding: (state, action) => {
-            state.did_breed = false;
         },
         updateUserSlice: (state, action) => {
             state.money = action.payload.money;
@@ -127,8 +124,26 @@ const userSlice = createSlice({
             state.error = action.error;
             state.currentRequestId = undefined;
         });
+                
+
+        builder.addCase(fetchGetNextDay.pending, (state,action)=>{
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
+        });
+        builder.addCase(fetchGetNextDay.fulfilled, (state,action)=>{
+            state.status = 'idle';
+            state.currentRequestId = undefined;
+            if(action.payload.success) {
+                state.day = action.payload.object;                  
+            }
+        });
+        builder.addCase(fetchGetNextDay.rejected, (state,action)=>{
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
+        });
       }
 });
 export default userSlice;
-export { fetchUpdateUser, fetchUpdateBalance, fetchGetDraw };
-export const { addMoney, subMoney, getAnimal, nextDay, clearBaby, breeding, clearBreeding, updateUserSlice } = userSlice.actions;
+export { fetchUpdateUser, fetchUpdateBalance, fetchGetDraw, fetchGetNextDay };
+export const { addMoney, subMoney, nextDay, clearBaby, updateUserSlice } = userSlice.actions;

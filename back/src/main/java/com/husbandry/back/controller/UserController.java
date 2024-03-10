@@ -30,4 +30,14 @@ public class UserController {
         // order) 1: 일반적인, 2: 평범하지않은, 3: 희귀한, 4: 전설적인
         return ResponseEntity.ok().body(new ResponseDTO(true, 1));
     }
+
+    @GetMapping("/api/sleep")
+    public ResponseEntity<ResponseDTO> getNextDay() {
+        int day = 2;
+        // 동물성장(나이, w, 가치 변경 - w와 가치는 5세까지만 성장)
+        // 컨디션 변경 및 그에 따른 가치 하락
+        // 아기 생성
+        // 날짜 업데이트
+        return ResponseEntity.ok().body(new ResponseDTO(true, day));
+    }
 }

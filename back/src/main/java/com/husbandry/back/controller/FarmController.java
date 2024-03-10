@@ -5,8 +5,6 @@ import com.husbandry.back.dto.ResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-
 @CrossOrigin
 @RestController
 public class FarmController {
@@ -38,9 +36,15 @@ public class FarmController {
     }
     @PutMapping("/api/condition")
     public ResponseEntity<ResponseDTO> updateAnimCond(@RequestParam Integer order, Integer land, String nickName) {
-        // order: 1) enjoy, 2) feed, 3) clean, 4) nickname
+        // order: 1) enjoy, 2) feed, 3) clean, 4) nickname, 5)mating
         // order에 따른 동물의 상태 변경
         System.out.println(order + " " + land + " " + nickName);
         return ResponseEntity.ok().body(new ResponseDTO(true, new FarmDTO.Profile(null, null, new String[0])));
+    }
+
+    @PutMapping("/api/breeding")
+    public ResponseEntity<ResponseDTO> updateBreeding(@RequestParam Integer parent1, Integer parent2) {
+        System.out.println(parent1 + " " + parent2);
+        return ResponseEntity.ok().body(new ResponseDTO(true, null));
     }
 }

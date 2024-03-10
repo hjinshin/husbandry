@@ -3,13 +3,12 @@ import ScaleDown from '../../components/animation/ScaleDown';
 import ScaleUp from '../../components/animation/ScaleUp';
 import './Breeder.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { breeding } from '../../slices/userSlice';
+import { fetchBreeding } from '../../slices/farmSlice';
 
 function Breeder(props) {
     const dispatch = useDispatch();
     const [goToFarm, setGoToFarm] = useState(false);
-    const {mating} = useSelector(state=>{return state.farm});
-    const {did_breed} = useSelector(state=>{return state.user});
+    const {mating, did_breed} = useSelector(state=>{return state.farm});
 
     useEffect(()=> {
         props.setPrevLoc(true);
@@ -17,7 +16,7 @@ function Breeder(props) {
 
     function sendBreedingInfo() {
         console.log("서버로 교배 정보 보내기");
-        dispatch(breeding());
+        dispatch(fetchBreeding(mating));
     }
 
     function checkNumOfAnimal(matingInfo) {

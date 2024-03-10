@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { animalValueObjMap } from '../data/animalValueObjMap';
 import { getFarmInfo } from '../APIs/getApi';
-import { updateAnimCond, updateBuyLand, updateFarmThruBuy, updateFarmThruSell } from '../APIs/putApi';
+import { updateAnimCond, updateBreeding, updateBuyLand, updateFarmThruBuy, updateFarmThruSell } from '../APIs/putApi';
 
 const fetchUpdateFarm = createAsyncThunk(
     'farm/fetchUpdateFarm',
@@ -43,6 +43,14 @@ const fetchAnimCond = createAsyncThunk(
         return res;
     }
 )
+const fetchBreeding = createAsyncThunk(
+    'farm/fetchBreeding',
+    async(mating) => {
+        const res = await updateBreeding(mating);
+        // console.log(res);
+        return res;
+    }
+)
 
 const farmSlice = createSlice({
     name: 'farm',
@@ -52,6 +60,7 @@ const farmSlice = createSlice({
         error: null,
         owned_land: 3, 
         mating: [],
+        did_breed: false,
         landInfo: {1: { info: null, value: null, img: []},   2: { info: null, value: null, img: [], },  3: { info: null, value: null, img: [],},  4: {info: null, value: null, img: [], },   5: {info: null, value: null, img: [], }, 
                    6: { info: null, value: null, img: []},   7: { info: null, value: null, img: [], },  8: { info: null, value: null, img: [] },  9: { info: null, value: null, img: [], }, 10: {info: null, value: null, img: [], }, 
                    11: { info: null, value: null, img: []}, 12: { info: null, value: null, img: [], }, 13: { info: null, value: null, img: [] }, 14: { info: null, value: null, img: [], }, 15: {info: null, value: null, img: [], }, 
@@ -124,6 +133,12 @@ const farmSlice = createSlice({
         },
         landUpdate: (state, action) => {
             state.owned_land += 1;
+        },
+        breeding: (state, action) => {
+            state.did_breed = true;
+        },
+        clearBreeding: (state, action) => {
+            state.did_breed = false;
         },
     },
     extraReducers: (builder) => {
@@ -213,11 +228,26 @@ const farmSlice = createSlice({
             state.error = action.error;
             state.currentRequestId = undefined;
         });
+
+        builder.addCase(fetchBreeding.pending, (state,action)=>{
+            state.status = 'pending';
+            state.currentRequestId = action.meta.requestId;
+        });
+        builder.addCase(fetchBreeding.fulfilled, (state,action)=>{
+            state.status = 'idle';
+            state.currentRequestId = undefined;
+            state.did_breed = true;
+        });
+        builder.addCase(fetchBreeding.rejected, (state,action)=>{
+            state.status = 'idle';
+            state.error = action.error;
+            state.currentRequestId = undefined;
+        });
       }
 });
 
 export default farmSlice;
-export { fetchUpdateFarm, fetchBuyAnimal, fetchSellAnimal, fetchBuyLand, fetchAnimCond };
+export { fetchUpdateFarm, fetchBuyAnimal, fetchSellAnimal, fetchBuyLand, fetchAnimCond, fetchBreeding };
 export const {landUpdate} = farmSlice.actions;
 export const {updateNickName, updateAnimalValue, updateAnimalInfo, emptyLandByNum} = farmSlice.actions;
-export const {/*playWithAnimal, feedAnimal, cleanAnimal,*/ matingAnimal, cancelMatingAnimal} = farmSlice.actions;
+export const {/*playWithAnimal, feedAnimal, cleanAnimal,*/ breeding, clearBreeding, matingAnimal, cancelMatingAnimal} = farmSlice.actions;

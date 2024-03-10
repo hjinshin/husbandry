@@ -11,7 +11,7 @@ export const updateFarmThruBuy = async(num, land) => {
                 "land": land
             }
         });
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     } catch(error) {
         throw error;
@@ -27,7 +27,7 @@ export const updateFarmThruSell = async(land) => {
                 "land": land
             }
         });
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     } catch(error) {
         throw error;
@@ -40,7 +40,7 @@ export const updateBuyLand = async() => {
             method:"PUT",
             url: SERVER_URL + '/api/land',
         });
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
     } catch(error) {
         throw error;
@@ -56,6 +56,23 @@ export const updateAnimCond = async(order, land, nickName) => {
                 "order": order,
                 "land": land,
                 "nickName": nickName
+            }
+        });
+        // console.log(res.data);
+        return res.data;
+    } catch(error) {
+        throw error;
+    }
+}
+
+export const updateBreeding = async(mating) => {
+    try {
+        const res = await axios({
+            method:"PUT",
+            url: SERVER_URL + '/api/breeding',
+            params:{
+                "parent1": mating[0],
+                "parent2": mating[1]
             }
         });
         // console.log(res.data);

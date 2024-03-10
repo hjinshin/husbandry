@@ -3,8 +3,8 @@ import Modal from './Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { optionModal, buyModal, matingModal, sellModal, bringModal, tamerModal, tamerFillOutModal, tamerDrawResultModal, tamerPovertyModal } from '../../slices/settingSlice';
 import { bgmRaise, bgmLower, sfxRaise, sfxLower } from '../../slices/settingSlice';
-import { updateAnimalValue, updateAnimalInfo, emptyLandByNum, matingAnimal, cancelMatingAnimal, fetchBuyAnimal, fetchSellAnimal } from '../../slices/farmSlice';
-import { addMoney, subMoney, getAnimal, clearBaby, fetchUpdateBalance, fetchGetDraw } from '../../slices/userSlice';
+import { updateAnimalValue, updateAnimalInfo, emptyLandByNum, matingAnimal, cancelMatingAnimal, fetchBuyAnimal, fetchSellAnimal, fetchAnimCond } from '../../slices/farmSlice';
+import { addMoney, subMoney, clearBaby, fetchUpdateBalance, fetchGetDraw } from '../../slices/userSlice';
 import { animalValueObjMap } from '../../data/animalValueObjMap';
 import { animalImageList } from '../../data/animalImgObjMap';
 import './Modal.css';
@@ -13,9 +13,9 @@ function ModalManager(props) {
     const dispatch = useDispatch();
     const { animal_list, bgm, sfx, option_modal, buy_modal, mating_modal, sell_modal, bring_modal } = useSelector(state=>{return state.setting});
     const { tamer_normal_modal, tamer_unnormal_modal, tamer_rare_modal, tamer_legendary_modal, tamer_draw_result_modal, tamer_fillout_modal, tamer_poverty_modal } = useSelector(state=>{return state.setting});
-    const { mating, landInfo } = useSelector(state=>{return state.farm});
+    const { mating, did_breed, landInfo } = useSelector(state=>{return state.farm});
     const { land } = useSelector(state=>{return state.setting});
-    const { money, owned_animal, baby, did_breed, draw } = useSelector(state=>{return state.user});
+    const { money, owned_animal, baby, draw } = useSelector(state=>{return state.user});
 
     function buy(e) {
         const num = e.target.id;
@@ -178,7 +178,8 @@ function ModalManager(props) {
         <Modal style={{width:"400px", height:"200px"}}>
             <p style={{width:"300px",right:"50px",top:"30px",position:"absolute", fontSize:"28px"}}>이 동물의 교배를 취소하시겠습니까?</p>
             <div>
-                <button className="modalDefaultBtn" onClick={()=>{dispatch(cancelMatingAnimal(land));dispatch(matingModal());}}
+                <button className="modalDefaultBtn" onClick={()=>{
+                    dispatch(cancelMatingAnimal(land)); dispatch(fetchAnimCond({order:5, land:land, nickName:null})); dispatch(matingModal());}}
                     style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"50px", backgroundColor:"lightgreen"}}>네</button> 
                 <button className="modalDefaultBtn" onClick={()=>dispatch(matingModal())}
                     style={{width:"120px",height:"50px",position:"absolute",top:"120px", right:"50px", backgroundColor:"rgb(242,127,122)"}}>아니오</button>
@@ -189,7 +190,8 @@ function ModalManager(props) {
         <Modal style={{width:"400px", height:"200px"}}>
             <p style={{width:"300px",right:"50px",top:"30px",position:"absolute", fontSize:"30px"}}>이 동물을 육종가에게 보내시겠습니까?</p>
             {(mating.length < 2) && 
-                <><button className="modalDefaultBtn" onClick={()=>{dispatch(matingAnimal(land));dispatch(matingModal());}}
+                <><button className="modalDefaultBtn" onClick={()=>{
+                    dispatch(matingAnimal(land)); dispatch(fetchAnimCond({order:5, land:land, nickName:null})); dispatch(matingModal());}}
                     style={{width:"120px",height:"50px",position:"absolute",top:"120px", left:"50px", backgroundColor:"lightgreen"}}>네</button> 
                 <button className="modalDefaultBtn" onClick={()=>dispatch(matingModal())}
                     style={{width:"120px",height:"50px",position:"absolute",top:"120px", right:"50px", backgroundColor:"rgb(242,127,122)"}}>아니오</button></>}

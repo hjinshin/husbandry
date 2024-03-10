@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { nextDay, clearBreeding } from '../../slices/userSlice';
+import { fetchGetNextDay, nextDay } from '../../slices/userSlice';
+import { clearBreeding } from '../../slices/farmSlice';
 import './Sleep.css'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,8 +11,13 @@ function Sleep(props) {
     const { day } = useSelector(state=>{return state.user});
     useEffect(()=> {
         props.setPrevLoc(false);  
+
+        // ----------서버의 역할로 변경-------------
         dispatch(nextDay());
         dispatch(clearBreeding());
+        // ----------------------------------------
+        dispatch(fetchGetNextDay());
+
         // 교배 결과 및 동물들 컨디션 결과 서버에서 가져오기
     },[props, dispatch]);
 

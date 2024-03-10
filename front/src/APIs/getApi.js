@@ -51,3 +51,15 @@ export const getDraw = async(order) => {
         throw error;
     }
 }
+export const getNextDay = async() => {
+    try {
+        const res = await axios({
+            method:"GET",
+            url: SERVER_URL + '/api/sleep',
+        });
+        // console.log(res.data);
+        return res.data;
+    } catch(error) {
+        throw error;
+    }
+}
